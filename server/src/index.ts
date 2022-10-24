@@ -39,14 +39,14 @@ app.use(
 
 app.use(express.json());
 app.use(morgan("tiny"));
-app.use(express.static("dist/public/api"));
+app.use(express.static("dist/public"));
 
 app.use(
   "/docs",
   swaggerUi.serve,
   swaggerUi.setup(undefined, {
     swaggerOptions: {
-      url: "/static/swagger.json",
+      url: "/api/static/swagger.json",
     },
   })
 );
