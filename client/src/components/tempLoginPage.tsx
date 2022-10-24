@@ -1,40 +1,18 @@
-import { createMutation } from "@tanstack/solid-query";
-import envConfig from "../envConfig";
-import { Accessor, createSignal, Show } from "solid-js";
-import { Box, Button, Input } from "@hope-ui/core";
+import { createSignal, Show } from "solid-js";
 import { throwInline } from "../utils/throwInline";
 import { useUserToken } from "./userTokenProvider";
-
-type SendVerificationCodeResponse = {
-  sessionInfo: string;
-};
-
-const useSendVerificationMutation = () => {
-  return createMutation(async ({ phoneNumber }: { phoneNumber: string }) => {
-    const response = await fetch(
-      `https://www.googleapis.com/identitytoolkit/v3/relyingparty/sendVerificationCode?key=${envConfig.loginKey}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          phoneNumber,
-          iosReceipt: envConfig.iosReceipt,
-        }),
-        headers: {
-          "x-ios-bundle-identifier": envConfig.iosBundleId,
-        },
-      }
-    );
-    return (await response.json()) as SendVerificationCodeResponse;
-  });
-};
+import { useLoginSendVerificationMutation } from "../openApiClients/berealWrapperQueries";
+import Box from "@suid/material/Box";
+import Input from "@suid/material/Input";
+import Button from "@suid/material/Button";
 
 const TempLoginPage = () => {
   const [inputPhoneNumber, setInputPhoneNumber] = createSignal("");
 
-  const verificationMutation = useSendVerificationMutation();
+  const verificationMutation = useLoginSendVerificationMutation();
 
   const handlePhoneInput = (e: InputEvent) =>
-  // @ts-expect-error
+    // @ts-expect-error
     setInputPhoneNumber(e.target?.value ?? "");
 
   const handleSubmitPhoneVerification = () => {
@@ -48,7 +26,7 @@ const TempLoginPage = () => {
   const userToken = useUserToken();
 
   const handleCodeInput = (e: InputEvent) =>
-  // @ts-expect-error
+    // @ts-expect-error
     setInputCode(e.target?.value ?? "");
 
   const handleSubmitCode = () => {

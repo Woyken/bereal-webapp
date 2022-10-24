@@ -1,4 +1,3 @@
-import { createQuery } from "@tanstack/solid-query";
 import { Show, For } from "solid-js";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
 
