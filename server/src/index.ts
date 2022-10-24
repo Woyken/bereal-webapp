@@ -9,6 +9,7 @@ import fs from "fs";
 import { AxiosError } from "axios";
 import { RegisterRoutes } from "../build/routes";
 import cors from "cors";
+import path from "path";
 
 const app = express();
 const options = process.env.NODE_ENV === 'development' ? {
@@ -39,7 +40,7 @@ app.use(
 
 app.use(express.json());
 app.use(morgan("tiny"));
-app.use(express.static("dist/public"));
+app.use(express.static(path.join(__dirname, "../dist/public")));
 
 app.use(
   "/docs",
