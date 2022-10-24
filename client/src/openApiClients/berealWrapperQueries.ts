@@ -3,52 +3,47 @@ import { useUserToken } from "../components/userTokenProvider";
 import { throwInline } from "../utils/throwInline";
 import { useBerealWrapperClient } from "./berealWrapperClient";
 
-const useAccessToken = () => {
-  const { token } = useUserToken();
-  const accessToken = token();
-  if (!accessToken) throw new Error("no token");
-  return accessToken;
-};
-
 const usePropsHeadersAuthorization = () => {
-  return {
+  const { token } = useUserToken();
+  return () => ({
     headers: {
-      authorization: useAccessToken(),
+      authorization: token() ?? throwInline(new Error("token not found")),
     },
-  };
+  });
 };
 
-export const useFriendsPostsQuery = () =>
-  createQuery(
+export const useFriendsPostsQuery = () => {
+  const client = useBerealWrapperClient();
+  const requestProps = usePropsHeadersAuthorization();
+  return createQuery(
     () => ["feeds", "friends"],
-    () =>
-      useBerealWrapperClient()
-        .api.getFriends(usePropsHeadersAuthorization())
-        .then((r) => r.data)
+    () => client.api.getFriends(requestProps()).then((r) => r.data)
   );
+};
 
-export const useDiscoveryPostsQuery = () =>
-  createQuery(
-    () => ["feeds", "friends"],
-    () =>
-      useBerealWrapperClient()
-        .api.getDiscovery(usePropsHeadersAuthorization())
-        .then((r) => r.data)
+export const useDiscoveryPostsQuery = () => {
+  const client = useBerealWrapperClient();
+  const requestProps = usePropsHeadersAuthorization();
+  return createQuery(
+    () => ["feeds", "discovery"],
+    () => client.api.getDiscovery(requestProps()).then((r) => r.data)
   );
+};
 
-export const useMemoryPostsQuery = () =>
-  createQuery(
-    () => ["feeds", "friends"],
-    () =>
-      useBerealWrapperClient()
-        .api.getMemories(usePropsHeadersAuthorization())
-        .then((r) => r.data)
+export const useMemoryPostsQuery = () => {
+  const client = useBerealWrapperClient();
+  const requestProps = usePropsHeadersAuthorization();
+  return createQuery(
+    () => ["feeds", "memory"],
+    () => client.api.getMemories(requestProps()).then((r) => r.data)
   );
+};
 
 export const useLoginSendVerificationMutation = () => {
+  const client = useBerealWrapperClient();
   return createMutation(({ phoneNumber }: { phoneNumber: string }) =>
-    useBerealWrapperClient()
-      .api.postSendVerificationCode({
+    client.api
+      .postSendVerificationCode({
         phoneNumber,
       })
       .then((r) => r.data)
@@ -56,26 +51,26 @@ export const useLoginSendVerificationMutation = () => {
 };
 
 export const useLoginRefreshTokenMutation = () => {
-  const { refreshToken } = useUserToken();
-  return createMutation(() => {
-    const refreshTokenValue =
-      refreshToken() ?? throwInline(new Error("refresh token not set"));
-    return useBerealWrapperClient()
-      .api.postRefreshToken({
-        refresh_token: refreshTokenValue,
+  const client = useBerealWrapperClient();
+  return createMutation(({ refreshToken }: { refreshToken: string }) => {
+    return client.api
+      .postRefreshToken({
+        refresh_token: refreshToken,
       })
       .then((r) => r.data);
   });
 };
 
-export const useLoginVerifyPhoneNumberMutation = () =>
-  createMutation(
+export const useLoginVerifyPhoneNumberMutation = () => {
+  const client = useBerealWrapperClient();
+  return createMutation(
     ({ code, sessionInfo }: { code: string; sessionInfo: string }) => {
-      return useBerealWrapperClient()
-        .api.postVerifyPhoneNumber({
+      return client.api
+        .postVerifyPhoneNumber({
           code,
           sessionInfo,
         })
         .then((r) => r.data);
     }
   );
+};
