@@ -11,12 +11,12 @@ import { RegisterRoutes } from "../build/routes";
 import cors from "cors";
 
 const app = express();
-const options = {
+const options = process.env.NODE_ENV === 'development' ? {
   key: fs.readFileSync(__dirname + "/ssl/key.pem"),
   cert: fs.readFileSync(__dirname + "/ssl/cert.pem"),
-};
+} : undefined;
 const server = process.env.NODE_ENV === 'development'
-  ? createServer(options, app)
+  ? createServer(options!, app)
   : createServer(app);
 const port = process.env.PORT || 3000;
 
