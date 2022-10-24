@@ -1,7 +1,5 @@
 const envConfig = {
-    iosReceipt: import.meta.env.VITE_iosReceipt,
-    loginKey: import.meta.env.VITE_loginKey,
-    iosBundleId: import.meta.env.VITE_ios_bundle_id,
-}
+  berealWrapperUrl: import.meta.env.VITE_bereal_wrapper_url,
+};
 
 export default envConfig;
