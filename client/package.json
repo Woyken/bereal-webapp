@@ -5,10 +5,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "postinstall": "npm run gen:bereal-wrapper",
+    "gen:bereal-wrapper": "swagger-typescript-api -p ./src/openApiClients/berealWrapper.json -o ./src/openApiClients/generated -n berealWrapper.ts"
   },
   "license": "MIT",
   "devDependencies": {
+    "swagger-typescript-api": "^10.0.3",
     "typescript": "^4.8.2",
     "vite": "^3.0.9",
     "vite-plugin-solid": "^2.3.0"
