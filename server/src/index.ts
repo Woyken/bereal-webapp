@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: ".env.local" });
 dotenv.config();
 import swaggerUi from "swagger-ui-express";
 import morgan from "morgan";
@@ -8,6 +8,7 @@ import { createServer } from "https";
 import fs from "fs";
 import { AxiosError } from "axios";
 import { RegisterRoutes } from "../build/routes";
+import cors from 'cors';
 
 const app = express();
 const options = {
@@ -16,6 +17,23 @@ const options = {
 };
 const server = createServer(options, app);
 const port = process.env.PORT || 3000;
+
+var allowedOrigins = ["https://localhost:3001", "https://woyken.github.io"];
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, false);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        var msg =
+          "The CORS policy for this site does not " +
+          "allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 app.use(express.json());
 app.use(morgan("tiny"));
