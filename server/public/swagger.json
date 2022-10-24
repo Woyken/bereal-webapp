@@ -774,25 +774,25 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"VerifyPhoneNumberRequest": {
+			"Pick_VerifyPhoneNumberRequest.Exclude_keyofVerifyPhoneNumberRequest.operation__": {
 				"properties": {
 					"sessionInfo": {
 						"type": "string"
 					},
 					"code": {
 						"type": "string"
-					},
-					"operation": {
-						"type": "string"
 					}
 				},
 				"required": [
 					"sessionInfo",
-					"code",
-					"operation"
+					"code"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_VerifyPhoneNumberRequest.operation_": {
+				"$ref": "#/components/schemas/Pick_VerifyPhoneNumberRequest.Exclude_keyofVerifyPhoneNumberRequest.operation__",
+				"description": "Construct a type with the properties of T except for those in type K."
 			},
 			"RefreshTokenResponse": {
 				"properties": {
@@ -830,21 +830,21 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RefreshTokenRequest": {
+			"Pick_RefreshTokenRequest.Exclude_keyofRefreshTokenRequest.grant_type__": {
 				"properties": {
 					"refresh_token": {
-						"type": "string"
-					},
-					"grant_type": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"refresh_token",
-					"grant_type"
+					"refresh_token"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_RefreshTokenRequest.grant_type_": {
+				"$ref": "#/components/schemas/Pick_RefreshTokenRequest.Exclude_keyofRefreshTokenRequest.grant_type__",
+				"description": "Construct a type with the properties of T except for those in type K."
 			},
 			"Realmoji": {
 				"properties": {
@@ -1551,7 +1551,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/VerifyPhoneNumberRequest"
+								"$ref": "#/components/schemas/Omit_VerifyPhoneNumberRequest.operation_"
 							}
 						}
 					}
@@ -1580,7 +1580,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RefreshTokenRequest"
+								"$ref": "#/components/schemas/Omit_RefreshTokenRequest.grant_type_"
 							}
 						}
 					}

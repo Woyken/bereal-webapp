@@ -1,4 +1,3 @@
-import { createMutation } from "@tanstack/solid-query";
 import {
   Accessor,
   createContext,
@@ -9,7 +8,10 @@ import {
   Show,
   useContext,
 } from "solid-js";
-import envConfig from "../envConfig";
+import {
+  useLoginRefreshTokenMutation,
+  useLoginVerifyPhoneNumberMutation,
+} from "../openApiClients/berealWrapperQueries";
 import parseJwt from "../utils/jwt";
 import { throwInline } from "../utils/throwInline";
 import TempLoginPage from "./tempLoginPage";
@@ -34,66 +36,6 @@ const ctx = createContext<{
 export const useUserToken = () => {
   const token = useContext(ctx);
   return token;
-};
-
-type RefreshTokenResponse = {
-  access_token: string;
-  expires_in: string;
-  token_type: string;
-  refresh_token: string;
-  id_token: string;
-  user_id: string;
-  project_id: string;
-};
-
-const useRefreshTokenMutation = () => {
-  return createMutation(async ({ refreshToken }: { refreshToken: string }) => {
-    const response = await fetch(
-      `https://securetoken.googleapis.com/v1/token?key=${envConfig.loginKey}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          refresh_token: refreshToken,
-          grant_type: "refresh_token",
-        }),
-        headers: {
-          "x-ios-bundle-identifier": envConfig.iosBundleId,
-        },
-      }
-    );
-    return (await response.json()) as RefreshTokenResponse;
-  });
-};
-
-type SubmitVerificationCodeResponse = {
-  idToken: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  isNewUser: false;
-  phoneNumber: string;
-};
-
-const useSubmitVerificationCodeMutation = () => {
-  return createMutation(
-    async ({ sessionInfo, code }: { sessionInfo: string; code: string }) => {
-      const response = await fetch(
-        `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPhoneNumber?key=${envConfig.loginKey}`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            sessionInfo,
-            code,
-            operation: "SIGN_UP_OR_IN",
-          }),
-          headers: {
-            "x-ios-bundle-identifier": envConfig.iosBundleId,
-          },
-        }
-      );
-      return (await response.json()) as SubmitVerificationCodeResponse;
-    }
-  );
 };
 
 export const UserTokenProvider: ParentComponent = (props) => {
@@ -128,8 +70,8 @@ export const UserTokenProvider: ParentComponent = (props) => {
     localStorage.setItem("refreshToken", rt);
   });
 
-  const mut = useRefreshTokenMutation();
-  const mut2 = useSubmitVerificationCodeMutation();
+  const mut = useLoginRefreshTokenMutation();
+  const mut2 = useLoginVerifyPhoneNumberMutation();
 
   createEffect(() => {
     if (!mut.data) return;
@@ -149,9 +91,7 @@ export const UserTokenProvider: ParentComponent = (props) => {
         token,
         refreshToken,
         executeRefreshToken() {
-          const rToken = refreshToken();
-          if (!rToken) throw new Error("Refresh token not set");
-          mut.mutate({ refreshToken: rToken });
+          mut.mutate();
         },
         setTokenFromVerificationCode({ code, sessionInfo }) {
           mut2.mutate({ code, sessionInfo });

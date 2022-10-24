@@ -31,11 +31,13 @@ export class LoginController extends Controller {
   }
 
   @Post("/verifyPhoneNumber")
-  public async postVerifyPhoneNumber(@Body() data: VerifyPhoneNumberRequest) {
+  public async postVerifyPhoneNumber(
+    @Body() data: Omit<VerifyPhoneNumberRequest, "operation">
+  ) {
     const params = new URLSearchParams({ key: envConfig.loginKey });
     const response = await axios.post<VerifyPhoneNumberResponse>(
       "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPhoneNumber",
-      data,
+      { ...data, operation: "SIGN_UP_OR_IN" },
       {
         params,
         headers: {
@@ -47,11 +49,13 @@ export class LoginController extends Controller {
   }
 
   @Post("/refreshToken")
-  public async postRefreshToken(@Body() data: RefreshTokenRequest) {
+  public async postRefreshToken(
+    @Body() data: Omit<RefreshTokenRequest, "grant_type">
+  ) {
     const params = new URLSearchParams({ key: envConfig.loginKey });
     const response = await axios.post<RefreshTokenResponse>(
       "https://securetoken.googleapis.com/v1/token",
-      data,
+      { ...data, grant_type: "refresh_token" },
       {
         params,
         headers: {
