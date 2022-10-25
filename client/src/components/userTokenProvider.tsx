@@ -87,6 +87,7 @@ export const UserTokenProvider: ParentComponent = (props) => {
         },
       }}
     >
+      <RefreshTokenAutomatically />
       <Show when={!isTokenValid()}>
         <TempLoginPage />
       </Show>
@@ -95,7 +96,7 @@ export const UserTokenProvider: ParentComponent = (props) => {
   );
 };
 
-export const RefreshTokenAutomatically = () => {
+const RefreshTokenAutomatically = () => {
   const { token, refreshToken, setToken, setRefreshToken } = useUserToken();
   const parsedJwt = createMemo(() => {
     const t = token();

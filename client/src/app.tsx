@@ -1,10 +1,7 @@
 import { ThemeProvider } from "@suid/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import MainView from "./components/mainView";
-import {
-  RefreshTokenAutomatically,
-  UserTokenProvider,
-} from "./components/userTokenProvider";
+import { UserTokenProvider } from "./components/userTokenProvider";
 import { BerealWrapperClientProvider } from "./openApiClients/berealWrapperClient";
 import { useAppTheme } from "./theme";
 
@@ -18,7 +15,6 @@ const App = () => {
       <QueryClientProvider client={client}>
         <ThemeProvider theme={theme()}>
           <UserTokenProvider>
-            <RefreshTokenAutomatically />
             <MainView />
           </UserTokenProvider>
         </ThemeProvider>
