@@ -1,6 +1,8 @@
 import { ThemeProvider } from "@suid/material";
+import Button from "@suid/material/Button";
 import CssBaseline from "@suid/material/CssBaseline";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import { ErrorBoundary } from "solid-js";
 import MainView from "./components/mainView";
 import { UserTokenProvider } from "./components/userTokenProvider";
 import { BerealWrapperClientProvider } from "./openApiClients/berealWrapperClient";
@@ -15,9 +17,18 @@ const App = () => {
     <BerealWrapperClientProvider>
       <QueryClientProvider client={client}>
         <ThemeProvider theme={theme()}>
-          <CssBaseline/>
+          <CssBaseline />
           <UserTokenProvider>
-            <MainView />
+            <ErrorBoundary
+              fallback={(err, reset) => (
+                <>
+                  Website crashed, {JSON.stringify(err)}
+                  <Button onclick={reset}>Reset</Button>
+                </>
+              )}
+            >
+              <MainView />
+            </ErrorBoundary>
           </UserTokenProvider>
         </ThemeProvider>
       </QueryClientProvider>
