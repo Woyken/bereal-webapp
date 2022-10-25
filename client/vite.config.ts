@@ -4,6 +4,7 @@ import basicSsl from "@vitejs/plugin-basic-ssl";
 import suidPlugin from "@suid/vite-plugin";
 
 export default defineConfig({
+  base: './',
   plugins: [basicSsl(), suidPlugin(), solidPlugin()],
   server: {
     https: true,
