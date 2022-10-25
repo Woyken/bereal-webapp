@@ -16,6 +16,8 @@ jobs:
               run: npm install
             - name: run build
               working-directory: ./client
+              env:
+                VITE_bereal_wrapper_url: ${{ secrets.VITE_bereal_wrapper_url }}
               run: npm run build
 
             - name: Deploy to GitHub Pages
