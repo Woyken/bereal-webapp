@@ -17,7 +17,8 @@ export const useFriendsPostsQuery = () => {
   const requestProps = usePropsHeadersAuthorization();
   return createQuery(
     () => ["feeds", "friends"],
-    () => client.api.getFriends(requestProps()).then((r) => r.data)
+    () => client.api.getFriends(requestProps()).then((r) => r.data),
+    { suspense: true }
   );
 };
 
