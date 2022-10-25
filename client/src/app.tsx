@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@suid/material";
+import CssBaseline from "@suid/material/CssBaseline";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import MainView from "./components/mainView";
 import { UserTokenProvider } from "./components/userTokenProvider";
@@ -14,6 +15,7 @@ const App = () => {
     <BerealWrapperClientProvider>
       <QueryClientProvider client={client}>
         <ThemeProvider theme={theme()}>
+          <CssBaseline/>
           <UserTokenProvider>
             <MainView />
           </UserTokenProvider>
