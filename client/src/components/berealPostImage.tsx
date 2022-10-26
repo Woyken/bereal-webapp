@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { createMemo, createSignal } from "solid-js";
 import styles from "./berealPostImage.module.css";
 
@@ -25,13 +26,13 @@ const BerealFeedImage = (props: Props) => {
   return (
     <div class={styles["relative-wrapper"]}>
       <img
-        class={primaryStyle()}
+        class={clsx(styles["feed-image"], primaryStyle())}
         src={props.primaryUrl}
         loading="lazy"
         onclick={handlePrimaryClick}
       />
       <img
-        class={secondaryStyle()}
+        class={clsx(styles["feed-image"], secondaryStyle())}
         src={props.secondaryUrl}
         loading="lazy"
         onclick={handleSecondaryClick}
