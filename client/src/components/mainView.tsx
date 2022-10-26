@@ -60,15 +60,13 @@ const MainView = () => {
 
   return (
     <>
-      <Container>
-        <Stack spacing={2}>
-          <Suspense fallback={<CircularProgress />}>
-            <For each={friendsPosts.data}>
-              {(item) => <FeedCard item={item}></FeedCard>}
-            </For>
-          </Suspense>
-        </Stack>
-      </Container>
+      <Stack spacing={2} alignItems="center" overflow="scroll">
+        <Suspense fallback={<CircularProgress />}>
+          <For each={friendsPosts.data}>
+            {(item) => <FeedCard item={item}></FeedCard>}
+          </For>
+        </Suspense>
+      </Stack>
     </>
   );
 };
