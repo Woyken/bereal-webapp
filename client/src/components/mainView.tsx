@@ -16,6 +16,18 @@ import BerealFeedImage from "./berealPostImage";
 // Pretty good reverse engineered API can be found here https://github.com/notmarek/BeFake/blob/master/insomnia.json
 
 const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
+  let postedAt =
+    "Today at " +
+    new Date(
+      item.creationDate._seconds * 1000 +
+        item.creationDate._nanoseconds / 1000 / 1000
+    ).toLocaleTimeString();
+  if (item.lateInSeconds >= 60 * 60)
+    postedAt = Math.floor(item.lateInSeconds / (60 * 60)) + "h late";
+  else if (item.lateInSeconds >= 60)
+    postedAt = Math.floor(item.lateInSeconds / 60) + "min late";
+  else if (item.lateInSeconds) postedAt = item.lateInSeconds + "s late";
+
   return (
     <Card sx={{ maxWidth: 505 }}>
       <CardContent>
@@ -30,6 +42,18 @@ const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
             <Show when={item.location}>
               <Typography color="text.secondary">
                 {item.location?._latitude} {item.location?._longitude}
+              </Typography>
+            </Show>
+          </Stack>
+          <Stack
+            // override stack styles and push it to end
+            style={{ "margin-left": "auto" }}
+            direction="row"
+            alignSelf="center"
+          >
+            <Show when={postedAt}>
+              <Typography fontSize="0.7em" color="text.secondary">
+                {postedAt}
               </Typography>
             </Show>
           </Stack>
