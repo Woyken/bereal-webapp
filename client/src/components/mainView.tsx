@@ -1,4 +1,5 @@
 import Avatar from "@suid/material/Avatar";
+import Box from "@suid/material/Box";
 import Button from "@suid/material/Button";
 import Card from "@suid/material/Card";
 import CardActions from "@suid/material/CardActions";
@@ -10,6 +11,7 @@ import Typography from "@suid/material/Typography";
 import { Show, For, Suspense } from "solid-js";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
 import { FeedsFriendsResponse } from "../openApiClients/generated/berealWrapper";
+import { PropsWithClass } from "../utils/propsWithClass";
 
 // Pretty good reverse engineered API can be found here https://github.com/notmarek/BeFake/blob/master/insomnia.json
 
@@ -34,10 +36,12 @@ const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
         </Stack>
         <div>
           <img
+            loading="lazy"
             src={item.photoURL}
             style={{ "max-height": "300px", margin: "5px" }}
           />
           <img
+            loading="lazy"
             src={item.secondaryPhotoURL}
             style={{ "max-height": "300px", margin: "5px" }}
           />
@@ -55,11 +59,11 @@ const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
   );
 };
 
-const MainView = () => {
+const MainView = (props: PropsWithClass) => {
   const friendsPosts = useFriendsPostsQuery();
 
   return (
-    <>
+    <Box class={props.class}>
       <Stack spacing={2} alignItems="center" overflow="scroll">
         <Suspense fallback={<CircularProgress />}>
           <For each={friendsPosts.data}>
@@ -67,7 +71,7 @@ const MainView = () => {
           </For>
         </Suspense>
       </Stack>
-    </>
+    </Box>
   );
 };
 

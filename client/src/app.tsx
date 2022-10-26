@@ -8,12 +8,8 @@ const App = () => {
   return (
     <AppProviders>
       <div class={styles.container}>
-        <div class={styles.header}>
-          <Header />
-        </div>
-        <div class={styles.main}>
-          <MainView />
-        </div>
+        <Header class={styles.header} />
+        <MainView class={styles.main} />
       </div>
     </AppProviders>
   );

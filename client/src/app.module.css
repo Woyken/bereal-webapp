@@ -10,7 +10,9 @@
 
 .header {
     grid-area: header;
+    align-self: start;
 }
+
 .main {
     grid-area: main;
     overflow: auto;
