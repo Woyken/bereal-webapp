@@ -12,7 +12,7 @@ const AppProviders = (props: ParentProps) => {
   const theme = useAppTheme();
   const client = new QueryClient({
     defaultOptions: {
-      queries: { staleTime: 1000 * 20, cacheTime: 1000 * 60 * 60 },
+      queries: { staleTime: 1000 * 20, cacheTime: 1000 * 60 * 60 * 24 },
     },
   });
   return (
