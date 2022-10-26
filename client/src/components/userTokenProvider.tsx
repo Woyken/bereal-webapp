@@ -7,25 +7,18 @@ import {
   onCleanup,
   ParentComponent,
   Setter,
-  Show,
   useContext,
 } from "solid-js";
 import {
   useLoginRefreshTokenMutation,
-  useLoginVerifyPhoneNumberMutation,
 } from "../openApiClients/berealWrapperQueries";
 import parseJwt from "../utils/jwt";
-import TempLoginPage from "./tempLoginPage";
 
 const ctx = createContext<{
   token: Accessor<string | undefined>;
   setToken: Setter<string | undefined>;
   refreshToken: Accessor<string | undefined>;
   setRefreshToken: Setter<string | undefined>;
-  setTokenFromVerificationCode: (props: {
-    sessionInfo: string;
-    code: string;
-  }) => void;
 }>();
 
 export const useUserToken = () => {
@@ -55,14 +48,6 @@ export const UserTokenProvider: ParentComponent = (props) => {
     localStorage.setItem("refreshToken", rt);
   });
 
-  const verifyPhoneNumberMutation = useLoginVerifyPhoneNumberMutation();
-
-  createEffect(() => {
-    if (!verifyPhoneNumberMutation.data) return;
-    setToken(verifyPhoneNumberMutation.data.idToken);
-    setRefreshToken(verifyPhoneNumberMutation.data.refreshToken);
-  });
-
   const parsedJwt = createMemo(() => {
     const t = token();
     return t ? parseJwt(t) : undefined;
@@ -82,16 +67,10 @@ export const UserTokenProvider: ParentComponent = (props) => {
         setToken,
         refreshToken,
         setRefreshToken,
-        setTokenFromVerificationCode({ code, sessionInfo }) {
-          verifyPhoneNumberMutation.mutate({ code, sessionInfo });
-        },
       }}
     >
       <RefreshTokenAutomatically />
-      <Show when={!isTokenValid()}>
-        <TempLoginPage />
-      </Show>
-      <Show when={isTokenValid()}>{props.children}</Show>
+      {props.children}
     </ctx.Provider>
   );
 };

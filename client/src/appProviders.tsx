@@ -1,3 +1,4 @@
+import { hashIntegration, Router } from "@solidjs/router";
 import { ThemeProvider } from "@suid/material";
 import Button from "@suid/material/Button";
 import CssBaseline from "@suid/material/CssBaseline";
@@ -10,7 +11,9 @@ import { useAppTheme } from "./theme";
 const AppProviders = (props: ParentProps) => {
   const theme = useAppTheme();
   const client = new QueryClient({
-    defaultOptions: { queries: { staleTime: 1000 * 20, cacheTime: 1000 * 60 * 60 } },
+    defaultOptions: {
+      queries: { staleTime: 1000 * 20, cacheTime: 1000 * 60 * 60 },
+    },
   });
   return (
     <>
@@ -27,7 +30,7 @@ const AppProviders = (props: ParentProps) => {
                   </>
                 )}
               >
-                {props.children}
+                <Router source={hashIntegration()}>{props.children}</Router>
               </ErrorBoundary>
             </UserTokenProvider>
           </ThemeProvider>
