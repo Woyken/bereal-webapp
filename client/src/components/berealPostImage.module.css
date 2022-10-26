@@ -1,0 +1,18 @@
+.relative-wrapper {
+  position: relative;
+}
+
+.top-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  max-height: 5em;
+  margin: 0.5em;
+  border-radius: 10px;
+}
+
+.bottom-image {
+  max-height: 20em;
+  border-radius: 2px;
+}

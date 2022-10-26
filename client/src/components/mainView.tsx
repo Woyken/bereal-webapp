@@ -5,13 +5,13 @@ import Card from "@suid/material/Card";
 import CardActions from "@suid/material/CardActions";
 import CardContent from "@suid/material/CardContent";
 import CircularProgress from "@suid/material/CircularProgress";
-import Container from "@suid/material/Container";
 import Stack from "@suid/material/Stack";
 import Typography from "@suid/material/Typography";
 import { Show, For, Suspense } from "solid-js";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
 import { FeedsFriendsResponse } from "../openApiClients/generated/berealWrapper";
 import { PropsWithClass } from "../utils/propsWithClass";
+import BerealFeedImage from "./berealPostImage";
 
 // Pretty good reverse engineered API can be found here https://github.com/notmarek/BeFake/blob/master/insomnia.json
 
@@ -34,21 +34,13 @@ const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
             </Show>
           </Stack>
         </Stack>
-        <div>
-          <img
-            loading="lazy"
-            src={item.photoURL}
-            style={{ "max-height": "300px", margin: "5px" }}
-          />
-          <img
-            loading="lazy"
-            src={item.secondaryPhotoURL}
-            style={{ "max-height": "300px", margin: "5px" }}
-          />
-          <Show when={item.caption}>
-            <Typography color="text.secondary">{item.caption}</Typography>
-          </Show>
-        </div>
+        <BerealFeedImage
+          primaryUrl={item.photoURL}
+          secondaryUrl={item.secondaryPhotoURL}
+        />
+        <Show when={item.caption}>
+          <Typography color="text.secondary">{item.caption}</Typography>
+        </Show>
       </CardContent>
       <CardActions>
         <Show when={item.comment.length}>
