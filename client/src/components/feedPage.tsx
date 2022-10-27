@@ -8,6 +8,7 @@ import CircularProgress from "@suid/material/CircularProgress";
 import Stack from "@suid/material/Stack";
 import Typography from "@suid/material/Typography";
 import { Show, For, Suspense } from "solid-js";
+import useRequireLogin from "../hooks/requireLogin";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
 import { FeedsFriendsResponse } from "../openApiClients/generated/berealWrapper";
 import { PropsWithClass } from "../utils/propsWithClass";
@@ -76,6 +77,8 @@ const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
 };
 
 const MainView = (props: PropsWithClass) => {
+  useRequireLogin();
+
   const friendsPosts = useFriendsPostsQuery();
 
   return (

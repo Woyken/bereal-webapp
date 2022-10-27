@@ -27,7 +27,9 @@ const LoginPage = () => {
 
   createEffect(() => {
     if (verificationMutation.isSuccess)
-      navigate(`/verifyCode/${verificationMutation.data?.sessionInfo}`);
+      navigate(`/verifyCode/${verificationMutation.data?.sessionInfo}`, {
+        replace: true,
+      });
   });
 
   return (

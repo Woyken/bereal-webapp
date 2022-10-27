@@ -26,7 +26,7 @@ export const VerifyCodePage = () => {
   const navigate = useNavigate();
   createEffect(() => {
     if (!verifyPhoneNumberMutation.isSuccess) return;
-    navigate("/");
+    navigate("/", { replace: true });
   });
 
   const handleCodeInput = (e: InputEvent) =>
