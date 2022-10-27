@@ -376,3 +376,7 @@ interface CameraPictureUploadData {
   width: number;
   path: string;
 }
+
+export interface ContentPostsCaptionPatchRequest {
+  caption: string;
+}

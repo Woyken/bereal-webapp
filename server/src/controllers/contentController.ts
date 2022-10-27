@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Header, Patch, Post, Route } from "tsoa";
 import {
+  ContentPostsCaptionPatchRequest,
   ContentPostsPostRequest,
   ContentPostsUploadUrlGetResponse,
   ContentPostsVisibilityPatchRequest,
@@ -36,6 +37,18 @@ export class ContentController extends Controller {
   ) {
     return await makeBerealPatchRequest(
       "api/content/posts/visibility",
+      auth,
+      data
+    );
+  }
+
+  @Patch("/posts/caption")
+  public async patchPostCaption(
+    @Header("authorization") auth: string,
+    @Body() data: ContentPostsCaptionPatchRequest
+  ) {
+    return await makeBerealPatchRequest(
+      "api/content/posts/caption",
       auth,
       data
     );
