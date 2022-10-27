@@ -10,24 +10,43 @@ import Typography from "@suid/material/Typography";
 import { Show, For, Suspense } from "solid-js";
 import useRequireLogin from "../hooks/requireLogin";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
-import { FeedsFriendsResponse } from "../openApiClients/generated/berealWrapper";
+import {
+  CreationDate,
+  FeedsFriendsResponse,
+} from "../openApiClients/generated/berealWrapper";
 import { PropsWithClass } from "../utils/propsWithClass";
 import BerealFeedImage from "./berealPostImage";
 
 // Pretty good reverse engineered API can be found here https://github.com/notmarek/BeFake/blob/master/insomnia.json
 
+const isToday = (someDate: Date) => {
+  const today = new Date();
+  return (
+    someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+  );
+};
+
+const getTimePostedText = (
+  creationDate: CreationDate,
+  lateInSeconds: number
+) => {
+  const postedDate = new Date(
+    creationDate._seconds * 1000 + creationDate._nanoseconds / 1000 / 1000
+  );
+
+  if (lateInSeconds >= 60 * 60)
+    return Math.floor(lateInSeconds / (60 * 60)) + "h late";
+  if (lateInSeconds >= 60) return Math.floor(lateInSeconds / 60) + "min late";
+  if (lateInSeconds) return lateInSeconds + "s late";
+  const timeStr = postedDate.toLocaleTimeString();
+  if (isToday(postedDate)) return "Today at " + timeStr;
+  return "Yesterday at " + timeStr;
+};
+
 const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
-  let postedAt =
-    "Today at " +
-    new Date(
-      item.creationDate._seconds * 1000 +
-        item.creationDate._nanoseconds / 1000 / 1000
-    ).toLocaleTimeString();
-  if (item.lateInSeconds >= 60 * 60)
-    postedAt = Math.floor(item.lateInSeconds / (60 * 60)) + "h late";
-  else if (item.lateInSeconds >= 60)
-    postedAt = Math.floor(item.lateInSeconds / 60) + "min late";
-  else if (item.lateInSeconds) postedAt = item.lateInSeconds + "s late";
+  const postedAt = getTimePostedText(item.creationDate, item.lateInSeconds);
 
   return (
     <Card sx={{ maxWidth: 505 }}>
