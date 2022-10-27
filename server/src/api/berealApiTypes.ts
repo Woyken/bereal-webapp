@@ -3,7 +3,7 @@ export interface PatchMeUsernameResponse {
   id: string;
   username: string;
   newUsername: string;
-  birthdate: Date;
+  birthdate: string;
   fullname: string;
   profilePicture: ProfilePicture;
   realmojis: Realmoji[];
@@ -16,7 +16,7 @@ export interface PatchMeUsernameResponse {
   location: string;
   countryCode: string;
   region: Region;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface Device {
@@ -55,7 +55,7 @@ export interface PersonMeUsernamePatchRequest {
 
 export interface PersonMePostRequest {
   username: string;
-  birthdate: Date;
+  birthdate: string;
 }
 
 export interface PersonMePatchRequest {
@@ -80,7 +80,7 @@ export interface RelationshipsFriendRequestsPostResponse {
   statusCode: number;
   errorKey: null;
   fields: null;
-  timestamp: Date;
+  timestamp: string;
   requestId: string;
 }
 
@@ -96,7 +96,7 @@ export interface RelationshipsFriendRequestsSentResponseDatum {
   status: string;
   profilePicture: ProfilePicture;
   mutualFriends: number;
-  updatedAt: Date;
+  updatedAt: string;
 }
 
 export interface RelationshipsFriendsResponse {
@@ -124,7 +124,7 @@ export interface FeedsMemoriesResponseDatum {
   primary: ProfilePicture;
   secondary: ProfilePicture;
   isLate: boolean;
-  memoryDay: Date;
+  memoryDay: string;
   location: DatumLocation | null;
 }
 
@@ -282,7 +282,7 @@ export interface ModerationBlockUsersResponse {
 
 export interface ModerationBlockUsersResponseDatum {
   userId: string;
-  blockedAt: Date;
+  blockedAt: string;
   user: DatumUser;
 }
 
@@ -296,7 +296,7 @@ export interface DatumUser {
 export interface MeResponse {
   id: string;
   username: string;
-  birthdate: Date;
+  birthdate: string;
   fullname: string;
   profilePicture: ProfilePicture;
   realmojis: Realmoji[];
@@ -309,7 +309,7 @@ export interface MeResponse {
   location: string;
   countryCode: string;
   region: Region;
-  createdAt: Date;
+  createdAt: string;
   newUsername?: string;
 }
 
@@ -320,7 +320,57 @@ export interface TermsResponse {
 export interface TermsResponseDatum {
   code: string;
   status: string;
-  signedAt?: Date;
+  signedAt?: string;
   termUrl: string;
   version: string;
+}
+
+export interface ContentPostsUploadUrlGetResponse {
+  data: {
+    url: string;
+    expireAt: string;
+    bucket: string;
+    path: string;
+    headers: {
+      "Cache-Control": string;
+      "Content-Type": string;
+      "x-goog-content-length-range": string;
+    };
+  }[];
+}
+
+export interface ContentRealmojisUploadUrlGetResponse {
+  data: {
+    url: string;
+    expireAt: string;
+    bucket: string;
+    path: string;
+    headers: {
+      "Cache-Control": string;
+      "Content-Type": string;
+      "x-goog-content-length-range": string;
+    };
+  };
+}
+
+export interface ContentPostsVisibilityPatchRequest {
+  visibility: any;
+}
+
+export interface ContentPostsPostRequest {
+  isPublic: boolean;
+  isLate: boolean;
+  retakeCounter: number;
+  takenAt: string;
+  location: DatumLocation;
+  caption: string;
+  backCamera: CameraPictureUploadData;
+  frontCamera: CameraPictureUploadData;
+}
+
+interface CameraPictureUploadData {
+  bucket: string;
+  height: number;
+  width: number;
+  path: string;
 }

@@ -40,8 +40,7 @@
 						"type": "string"
 					},
 					"blockedAt": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					},
 					"user": {
 						"$ref": "#/components/schemas/DatumUser"
@@ -78,6 +77,208 @@
 				},
 				"required": [
 					"blockedUserId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ContentPostsUploadUrlGetResponse": {
+				"properties": {
+					"data": {
+						"items": {
+							"properties": {
+								"headers": {
+									"properties": {
+										"x-goog-content-length-range": {
+											"type": "string"
+										},
+										"Content-Type": {
+											"type": "string"
+										},
+										"Cache-Control": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"x-goog-content-length-range",
+										"Content-Type",
+										"Cache-Control"
+									],
+									"type": "object"
+								},
+								"path": {
+									"type": "string"
+								},
+								"bucket": {
+									"type": "string"
+								},
+								"expireAt": {
+									"type": "string"
+								},
+								"url": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"headers",
+								"path",
+								"bucket",
+								"expireAt",
+								"url"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ContentRealmojisUploadUrlGetResponse": {
+				"properties": {
+					"data": {
+						"properties": {
+							"headers": {
+								"properties": {
+									"x-goog-content-length-range": {
+										"type": "string"
+									},
+									"Content-Type": {
+										"type": "string"
+									},
+									"Cache-Control": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"x-goog-content-length-range",
+									"Content-Type",
+									"Cache-Control"
+								],
+								"type": "object"
+							},
+							"path": {
+								"type": "string"
+							},
+							"bucket": {
+								"type": "string"
+							},
+							"expireAt": {
+								"type": "string"
+							},
+							"url": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"headers",
+							"path",
+							"bucket",
+							"expireAt",
+							"url"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ContentPostsVisibilityPatchRequest": {
+				"properties": {
+					"visibility": {}
+				},
+				"required": [
+					"visibility"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DatumLocation": {
+				"properties": {
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"longitude",
+					"latitude"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CameraPictureUploadData": {
+				"properties": {
+					"bucket": {
+						"type": "string"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"width": {
+						"type": "number",
+						"format": "double"
+					},
+					"path": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"bucket",
+					"height",
+					"width",
+					"path"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ContentPostsPostRequest": {
+				"properties": {
+					"isPublic": {
+						"type": "boolean"
+					},
+					"isLate": {
+						"type": "boolean"
+					},
+					"retakeCounter": {
+						"type": "number",
+						"format": "double"
+					},
+					"takenAt": {
+						"type": "string"
+					},
+					"location": {
+						"$ref": "#/components/schemas/DatumLocation"
+					},
+					"caption": {
+						"type": "string"
+					},
+					"backCamera": {
+						"$ref": "#/components/schemas/CameraPictureUploadData"
+					},
+					"frontCamera": {
+						"$ref": "#/components/schemas/CameraPictureUploadData"
+					}
+				},
+				"required": [
+					"isPublic",
+					"isLate",
+					"retakeCounter",
+					"takenAt",
+					"location",
+					"caption",
+					"backCamera",
+					"frontCamera"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -627,24 +828,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"DatumLocation": {
-				"properties": {
-					"longitude": {
-						"type": "number",
-						"format": "double"
-					},
-					"latitude": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"longitude",
-					"latitude"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"FeedsMemoriesResponseDatum": {
 				"properties": {
 					"id": {
@@ -663,8 +846,7 @@
 						"type": "boolean"
 					},
 					"memoryDay": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					},
 					"location": {
 						"allOf": [
@@ -920,8 +1102,7 @@
 						"type": "string"
 					},
 					"birthdate": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					},
 					"fullname": {
 						"type": "string"
@@ -966,8 +1147,7 @@
 						"$ref": "#/components/schemas/Region"
 					},
 					"createdAt": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					},
 					"newUsername": {
 						"type": "string"
@@ -1012,8 +1192,7 @@
 						"type": "string"
 					},
 					"birthdate": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					}
 				},
 				"required": [
@@ -1107,8 +1286,7 @@
 						"format": "double"
 					},
 					"updatedAt": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					}
 				},
 				"required": [
@@ -1188,8 +1366,7 @@
 						"nullable": true
 					},
 					"timestamp": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					},
 					"requestId": {
 						"type": "string"
@@ -1230,8 +1407,7 @@
 						"type": "string"
 					},
 					"signedAt": {
-						"type": "string",
-						"format": "date-time"
+						"type": "string"
 					},
 					"termUrl": {
 						"type": "string"
@@ -1366,6 +1542,140 @@
 						}
 					}
 				]
+			}
+		},
+		"/api/content/posts/upload-url": {
+			"get": {
+				"operationId": "GetPostsUploadUrl",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ContentPostsUploadUrlGetResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/content/realmojis/upload-url": {
+			"get": {
+				"operationId": "GetRealmojisUploadUrl",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ContentRealmojisUploadUrlGetResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/content/posts/visibility": {
+			"patch": {
+				"operationId": "PatchPostVisibility",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ContentPostsVisibilityPatchRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/content/posts": {
+			"post": {
+				"operationId": "PostNewPost",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ContentPostsPostRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/api/feeds/friends": {
