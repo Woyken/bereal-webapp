@@ -4,6 +4,10 @@
 
 .feed-image {
   max-width: 40em;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-delay: 0s;
+  transition-timing-function: cubic-bezier(.18,.89,.32,1.28);
 }
 
 .top-image {
