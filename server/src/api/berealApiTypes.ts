@@ -353,8 +353,10 @@ export interface ContentRealmojisUploadUrlGetResponse {
   };
 }
 
+type VisibilityTypes = "friends" | "friends-of-friends" | "public";
+
 export interface ContentPostsVisibilityPatchRequest {
-  visibility: any;
+  visibility: VisibilityTypes;
 }
 
 export interface ContentPostsPostRequest {

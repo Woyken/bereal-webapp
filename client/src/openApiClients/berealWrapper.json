@@ -188,9 +188,19 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"VisibilityTypes": {
+				"type": "string",
+				"enum": [
+					"friends",
+					"friends-of-friends",
+					"public"
+				]
+			},
 			"ContentPostsVisibilityPatchRequest": {
 				"properties": {
-					"visibility": {}
+					"visibility": {
+						"$ref": "#/components/schemas/VisibilityTypes"
+					}
 				},
 				"required": [
 					"visibility"
