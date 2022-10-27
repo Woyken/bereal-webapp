@@ -1,7 +1,5 @@
 import { QueryClient, dehydrate, hydrate } from "@tanstack/solid-query";
-import { createInstance } from "localforage";
-
-const storage = createInstance({ name: "bereal-query" });
+import { get, set, del } from "idb-keyval";
 
 interface IndexedDBCache {
   timestamp: number;
@@ -41,31 +39,30 @@ export async function persistWithIndexedDB(
         timestamp: Date.now(),
         cacheState: dehydrate(queryClient),
       };
-      storage.setItem(indexedDBKey, JSON.stringify(storageCache)); // set in Indexed DB
+      set(indexedDBKey, JSON.stringify(storageCache)); // set in Indexed DB
     }, throttleTime);
 
     queryClient.getQueryCache().subscribe(saveCache);
 
     // Attempt restore
-    const cacheStorage = await storage.getItem(indexedDBKey); // get from Indexed DB
+    const cacheStorage = await get(indexedDBKey); // get from Indexed DB
 
     if (!cacheStorage) {
       return;
     }
 
-    // @ts-expect-error
     const cache: IndexedDBCache = JSON.parse(cacheStorage);
 
     if (cache.timestamp) {
       const expired = Date.now() - cache.timestamp > maxAge;
       const busted = cache.buster !== buster;
       if (expired || busted) {
-        storage.removeItem(indexedDBKey); // Delete from Indexed DB
+        del(indexedDBKey); // Delete from Indexed DB
       } else {
         hydrate(queryClient, cache.cacheState);
       }
     } else {
-      storage.removeItem(indexedDBKey);
+      del(indexedDBKey);
     }
   }
 }
