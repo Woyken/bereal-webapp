@@ -26,7 +26,10 @@
     "requestBodies": {},
     "responses": {},
     "schemas": {
-      "DatumUser": {
+      "bereal.app.repositories.remote_entities.RemoteBasicUser": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "bereal.app.repositories.remote_entities.RemoteBasicUser",
         "properties": {
           "id": {
             "type": "string"
@@ -38,14 +41,10 @@
             "type": "string"
           },
           "profilePicture": {
-            "type": "number",
-            "enum": [null],
-            "nullable": true
+            "$ref": "#/components/schemas/bereal.app.repositories.remote_entities.RemoteProfilePicture"
           }
         },
-        "required": ["id", "username", "fullname", "profilePicture"],
-        "type": "object",
-        "additionalProperties": false
+        "required": ["id", "username", "fullname", "profilePicture"]
       },
       "ModerationBlockUsersResponseDatum": {
         "properties": {
@@ -56,27 +55,33 @@
             "type": "string"
           },
           "user": {
-            "$ref": "#/components/schemas/DatumUser"
+            "$ref": "#/components/schemas/bereal.app.repositories.remote_entities.RemoteBasicUser"
           }
         },
         "required": ["userId", "blockedAt", "user"],
         "type": "object",
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "bereal.app.repositories.usermoderation.datasources.remote.model.RemoteBlockedUserData"
       },
       "ModerationBlockUsersResponse": {
+        "type": "object",
+        "additionalProperties": false,
         "properties": {
           "data": {
+            "type": "array",
             "items": {
               "$ref": "#/components/schemas/ModerationBlockUsersResponseDatum"
-            },
-            "type": "array"
+            }
+          },
+          "next": {
+            "type": "string",
+            "nullable": true
           }
         },
         "required": ["data"],
-        "type": "object",
-        "additionalProperties": false
+        "description": "bereal.app.repositories.usermoderation.datasources.remote.model.RemoteGetBlockedUsers"
       },
-      "ModerationBlockUsersRequest": {
+      "bereal.app.repositories.usermoderation.datasources.remote.model.RequestBlockUser": {
         "properties": {
           "blockedUserId": {
             "type": "string"
@@ -84,7 +89,8 @@
         },
         "required": ["blockedUserId"],
         "type": "object",
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "bereal.app.repositories.usermoderation.datasources.remote.model.RequestBlockUser"
       },
       "ContentRealmojisUploadUrlGetResponse": {
         "properties": {
@@ -1409,6 +1415,37 @@
             "type": "integer"
           }
         }
+      },
+      "bereal.app.repositories.remote_entities.RemoteProfilePicture": {
+        "title": "bereal.app.repositories.remote_entities.RemoteProfilePicture",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "width": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          }
+        }
+      },
+      "bereal.app.repositories.usermoderation.datasources.remote.model.ReportRequest": {
+        "title": "bereal.app.repositories.usermoderation.datasources.remote.model.ReportRequest",
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "refId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -1437,6 +1474,45 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/moderation/block-users/{blockedUserId}": {
+      "delete": {
+        "operationId": "delete-moderation-block-users-blockedUserId",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/authorization"
+          },
+          {
+            "in": "path",
+            "name": "blockedUserId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Moderation"]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "blockedUserId",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/moderation/block-users": {
       "get": {
         "operationId": "get-moderation-block-users",
@@ -1455,8 +1531,16 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/authorization"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "page"
           }
-        ]
+        ],
+        "tags": ["Moderation"]
       },
       "post": {
         "operationId": "post-moderation-block-users",
@@ -1475,51 +1559,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ModerationBlockUsersRequest"
+                "$ref": "#/components/schemas/bereal.app.repositories.usermoderation.datasources.remote.model.RequestBlockUser"
               }
             }
           }
-        }
+        },
+        "tags": ["Moderation"]
       },
       "parameters": []
     },
-    "/moderation/block-users/{userId}": {
-      "delete": {
-        "operationId": "DeleteBlockUser",
+    "/moderation/reports": {
+      "post": {
+        "operationId": "post-moderation-reports",
         "responses": {
           "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "description": "No content"
           }
         },
         "parameters": [
           {
             "$ref": "#/components/parameters/authorization"
-          },
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bereal.app.repositories.usermoderation.datasources.remote.model.ReportRequest"
+              }
             }
           }
-        ]
+        },
+        "tags": ["Moderation"]
       },
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "userId",
-          "in": "path",
-          "required": true
-        }
-      ]
+      "parameters": []
     },
     "/content/posts/upload-url": {
       "get": {
@@ -2685,6 +2759,9 @@
     }
   ],
   "tags": [
+    {
+      "name": "Moderation"
+    },
     {
       "name": "Moments"
     },
