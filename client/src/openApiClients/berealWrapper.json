@@ -6,197 +6,67 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"DatumUser": {
+			"BerealAppRepositoriesCommonModelGetSignedUploadUrlData": {
 				"properties": {
-					"id": {
+					"url": {
 						"type": "string"
 					},
-					"username": {
+					"expireAt": {
 						"type": "string"
 					},
-					"fullname": {
+					"path": {
 						"type": "string"
 					},
-					"profilePicture": {
-						"type": "number",
-						"enum": [
-							null
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"id",
-					"username",
-					"fullname",
-					"profilePicture"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ModerationBlockUsersResponseDatum": {
-				"properties": {
-					"userId": {
-						"type": "string"
-					},
-					"blockedAt": {
-						"type": "string"
-					},
-					"user": {
-						"$ref": "#/components/schemas/DatumUser"
-					}
-				},
-				"required": [
-					"userId",
-					"blockedAt",
-					"user"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ModerationBlockUsersResponse": {
-				"properties": {
-					"data": {
-						"items": {
-							"$ref": "#/components/schemas/ModerationBlockUsersResponseDatum"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"data"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ModerationBlockUsersRequest": {
-				"properties": {
-					"blockedUserId": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"blockedUserId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ContentPostsUploadUrlGetResponse": {
-				"properties": {
-					"data": {
-						"items": {
-							"properties": {
-								"headers": {
-									"properties": {
-										"x-goog-content-length-range": {
-											"type": "string"
-										},
-										"Content-Type": {
-											"type": "string"
-										},
-										"Cache-Control": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"x-goog-content-length-range",
-										"Content-Type",
-										"Cache-Control"
-									],
-									"type": "object"
-								},
-								"path": {
-									"type": "string"
-								},
-								"bucket": {
-									"type": "string"
-								},
-								"expireAt": {
-									"type": "string"
-								},
-								"url": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"headers",
-								"path",
-								"bucket",
-								"expireAt",
-								"url"
-							],
-							"type": "object"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"data"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ContentRealmojisUploadUrlGetResponse": {
-				"properties": {
-					"data": {
+					"headers": {
 						"properties": {
-							"headers": {
-								"properties": {
-									"x-goog-content-length-range": {
-										"type": "string"
-									},
-									"Content-Type": {
-										"type": "string"
-									},
-									"Cache-Control": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"x-goog-content-length-range",
-									"Content-Type",
-									"Cache-Control"
-								],
-								"type": "object"
-							},
-							"path": {
+							"Cache-Control": {
 								"type": "string"
 							},
-							"bucket": {
+							"Content-Type": {
 								"type": "string"
 							},
-							"expireAt": {
-								"type": "string"
-							},
-							"url": {
+							"x-goog-content-length-range": {
 								"type": "string"
 							}
 						},
 						"required": [
-							"headers",
-							"path",
-							"bucket",
-							"expireAt",
-							"url"
+							"Cache-Control",
+							"Content-Type",
+							"x-goog-content-length-range"
 						],
 						"type": "object"
+					},
+					"bucket": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"data"
+					"url",
+					"expireAt",
+					"path",
+					"headers"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
+			"BerealAppRepositoriesCommonModelGetSingleSignedUploadUrlResponse": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesCommonModelGetSignedUploadUrlData"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"VisibilityTypes": {
-				"type": "string",
 				"enum": [
 					"friends",
 					"friends-of-friends",
 					"public"
-				]
+				],
+				"type": "string"
 			},
-			"ContentPostsVisibilityPatchRequest": {
+			"BerealAppRepositoriesPostDatasourcesRemoteModelMyPostVisibilityRequestBody": {
 				"properties": {
 					"visibility": {
 						"$ref": "#/components/schemas/VisibilityTypes"
@@ -208,7 +78,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ContentPostsCaptionPatchRequest": {
+			"BerealAppRepositoriesPostDatasourcesRemoteModelMyPostCaptionRequestBody": {
 				"properties": {
 					"caption": {
 						"type": "string"
@@ -220,7 +90,33 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"DatumLocation": {
+			"BerealAppRepositoriesPostDatasourcesRemoteApiImage": {
+				"properties": {
+					"bucket": {
+						"type": "string"
+					},
+					"path": {
+						"type": "string"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"width": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"bucket",
+					"path",
+					"height",
+					"width"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteMemoriesLocation": {
 				"properties": {
 					"longitude": {
 						"type": "number",
@@ -238,9 +134,49 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CameraPictureUploadData": {
+			"BerealAppRepositoriesPostDatasourcesRemoteApiPostBody": {
 				"properties": {
-					"bucket": {
+					"frontCamera": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteApiImage"
+					},
+					"backCamera": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteApiImage"
+					},
+					"takenAt": {
+						"type": "string"
+					},
+					"isLate": {
+						"type": "boolean"
+					},
+					"visibility": {
+						"items": {
+							"$ref": "#/components/schemas/VisibilityTypes"
+						},
+						"type": "array"
+					},
+					"retakeCounter": {
+						"type": "number",
+						"format": "double"
+					},
+					"location": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteMemoriesLocation"
+					}
+				},
+				"required": [
+					"frontCamera",
+					"backCamera",
+					"takenAt",
+					"isLate",
+					"retakeCounter",
+					"location"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesPostDatasourcesRemoteModelRemotePostUserPhoto": {
+				"description": "bereal.app.repositories.post.datasources.remote.model.RemotePostUserPhoto",
+				"properties": {
+					"url": {
 						"type": "string"
 					},
 					"height": {
@@ -250,62 +186,281 @@
 					"width": {
 						"type": "number",
 						"format": "double"
-					},
-					"path": {
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesPostDatasourcesRemoteModelRemotePostUser": {
+				"description": "bereal.app.repositories.post.datasources.remote.model.RemotePostUser",
+				"properties": {
+					"id": {
 						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"fullname": {
+						"type": "string"
+					},
+					"profilePicture": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemotePostUserPhoto"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp": {
+				"properties": {
+					"_seconds": {
+						"type": "number",
+						"format": "double"
+					},
+					"_nanoseconds": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
-					"bucket",
-					"height",
-					"width",
-					"path"
+					"_seconds",
+					"_nanoseconds"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ContentPostsPostRequest": {
+			"BerealAppRepositoriesPostDatasourcesRemoteModelRemoteComment": {
 				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemotePostUser"
+					},
+					"text": {
+						"type": "string"
+					},
+					"creationDate": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji": {
+				"description": "bereal.app.repositories.post.datasources.remote.model.RemoteRealMoji",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"uid": {
+						"type": "string"
+					},
+					"emoji": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"uri": {
+						"type": "string"
+					},
+					"userName": {
+						"type": "string"
+					},
+					"date": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseLocation": {
+				"properties": {
+					"_latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"_longitude": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteProfilePicture": {
+				"description": "bereal.app.repositories.remote_entities.RemoteProfilePicture",
+				"properties": {
+					"url": {
+						"type": "string"
+					},
+					"width": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteBasicUser": {
+				"description": "bereal.app.repositories.remote_entities.RemoteBasicUser",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"fullname": {
+						"type": "string"
+					},
+					"profilePicture": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteProfilePicture"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"fullname",
+					"profilePicture"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesPostDatasourcesRemoteModelRemoteScreenshotUser": {
+				"description": "bereal.app.repositories.post.datasources.remote.model.RemoteScreenshotUser",
+				"properties": {
+					"user": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteBasicUser",
+						"description": "bereal.app.repositories.remote_entities.RemoteBasicUser"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"bucket": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemotePostUser"
+					},
+					"creationDate": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp"
+					},
+					"takenAt": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp"
+					},
+					"photoURL": {
+						"type": "string"
+					},
+					"imageHeight": {
+						"type": "number",
+						"format": "double"
+					},
+					"imageWidth": {
+						"type": "number",
+						"format": "double"
+					},
+					"secondaryPhotoURL": {
+						"type": "string"
+					},
+					"secondaryImageHeight": {
+						"type": "number",
+						"format": "double"
+					},
+					"secondaryImageWidth": {
+						"type": "number",
+						"format": "double"
+					},
+					"region": {
+						"type": "string"
+					},
+					"mediaType": {
+						"type": "string"
+					},
+					"notificationID": {
+						"type": "string"
+					},
+					"ownerID": {
+						"type": "string"
+					},
+					"userName": {
+						"type": "string"
+					},
+					"caption": {
+						"type": "string"
+					},
+					"comment": {
+						"items": {
+							"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemoteComment"
+						},
+						"type": "array"
+					},
+					"realMojis": {
+						"items": {
+							"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji"
+						},
+						"type": "array"
+					},
+					"geoHash": {
+						"type": "string"
+					},
+					"location": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseLocation"
+					},
 					"isPublic": {
 						"type": "boolean"
 					},
-					"isLate": {
-						"type": "boolean"
+					"lateInSeconds": {
+						"type": "number",
+						"format": "double"
 					},
 					"retakeCounter": {
 						"type": "number",
 						"format": "double"
 					},
-					"takenAt": {
-						"type": "string"
+					"screenshotsV2": {
+						"items": {
+							"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemoteScreenshotUser"
+						},
+						"type": "array"
 					},
-					"location": {
-						"$ref": "#/components/schemas/DatumLocation"
-					},
-					"caption": {
-						"type": "string"
-					},
-					"backCamera": {
-						"$ref": "#/components/schemas/CameraPictureUploadData"
-					},
-					"frontCamera": {
-						"$ref": "#/components/schemas/CameraPictureUploadData"
+					"visibility": {
+						"items": {
+							"$ref": "#/components/schemas/VisibilityTypes"
+						},
+						"type": "array"
 					}
 				},
-				"required": [
-					"isPublic",
-					"isLate",
-					"retakeCounter",
-					"takenAt",
-					"location",
-					"caption",
-					"backCamera",
-					"frontCamera"
-				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ProfilePicture": {
+			"BerealAppRepositoriesPostDatasourcesRemoteModelRemoteDiscoveryResponse": {
+				"description": "bereal.app.repositories.post.datasources.remote.model.RemoteDiscoveryResponse",
+				"properties": {
+					"posts": {
+						"items": {
+							"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost"
+						},
+						"type": "array"
+					},
+					"lastIndex": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfileMedia": {
 				"properties": {
 					"url": {
 						"type": "string"
@@ -327,542 +482,19 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"FeedsFriendsResponseUser": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"profilePicture": {
-						"$ref": "#/components/schemas/ProfilePicture"
-					}
-				},
-				"required": [
-					"id",
-					"username"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"MediaType": {
-				"enum": [
-					"late",
-					"photo"
-				],
-				"type": "string"
-			},
-			"Region": {
-				"enum": [
-					"europe-west",
-					"us-central"
-				],
-				"type": "string"
-			},
-			"Bucket": {
-				"enum": [
-					"storage.bere.al"
-				],
-				"type": "string"
-			},
-			"PostLocation": {
-				"properties": {
-					"_latitude": {
-						"type": "number",
-						"format": "double"
-					},
-					"_longitude": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"_latitude",
-					"_longitude"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CreationDate": {
-				"properties": {
-					"_seconds": {
-						"type": "number",
-						"format": "double"
-					},
-					"_nanoseconds": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"_seconds",
-					"_nanoseconds"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"FluffyProfilePicture": {
-				"properties": {
-					"height": {
-						"type": "number",
-						"format": "double"
-					},
-					"width": {
-						"type": "number",
-						"format": "double"
-					},
-					"url": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"height",
-					"width",
-					"url"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"PostUser": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"profilePicture": {
-						"$ref": "#/components/schemas/FluffyProfilePicture"
-					}
-				},
-				"required": [
-					"id",
-					"username"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Type": {
-				"enum": [
-					"heartEyes",
-					"instant",
-					"laughing",
-					"surprised",
-					"up"
-				],
-				"type": "string"
-			},
-			"FeedsFriendsResponseRealMoji": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"uid": {
-						"type": "string"
-					},
-					"userName": {
-						"type": "string"
-					},
-					"user": {
-						"$ref": "#/components/schemas/PostUser"
-					},
-					"emoji": {
-						"type": "string"
-					},
-					"type": {
-						"$ref": "#/components/schemas/Type"
-					},
-					"uri": {
-						"type": "string"
-					},
-					"date": {
-						"$ref": "#/components/schemas/CreationDate"
-					}
-				},
-				"required": [
-					"id",
-					"uid",
-					"userName",
-					"user",
-					"emoji",
-					"type",
-					"uri",
-					"date"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"FeedsFriendsResponse": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"notificationID": {
-						"type": "string"
-					},
-					"ownerID": {
-						"type": "string"
-					},
-					"userName": {
-						"type": "string"
-					},
-					"user": {
-						"$ref": "#/components/schemas/FeedsFriendsResponseUser"
-					},
-					"mediaType": {
-						"$ref": "#/components/schemas/MediaType"
-					},
-					"region": {
-						"$ref": "#/components/schemas/Region"
-					},
-					"bucket": {
-						"$ref": "#/components/schemas/Bucket"
-					},
-					"photoURL": {
-						"type": "string"
-					},
-					"imageWidth": {
-						"type": "number",
-						"format": "double"
-					},
-					"imageHeight": {
-						"type": "number",
-						"format": "double"
-					},
-					"secondaryPhotoURL": {
-						"type": "string"
-					},
-					"secondaryImageHeight": {
-						"type": "number",
-						"format": "double"
-					},
-					"secondaryImageWidth": {
-						"type": "number",
-						"format": "double"
-					},
-					"members": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"lateInSeconds": {
-						"type": "number",
-						"format": "double"
-					},
-					"isPublic": {
-						"type": "boolean"
-					},
-					"location": {
-						"$ref": "#/components/schemas/PostLocation"
-					},
-					"caption": {
-						"type": "string"
-					},
-					"retakeCounter": {
-						"type": "number",
-						"format": "double"
-					},
-					"creationDate": {
-						"$ref": "#/components/schemas/CreationDate"
-					},
-					"updatedAt": {
-						"type": "number",
-						"format": "double"
-					},
-					"takenAt": {
-						"$ref": "#/components/schemas/CreationDate"
-					},
-					"comment": {
-						"items": {},
-						"type": "array"
-					},
-					"realMojis": {
-						"items": {
-							"$ref": "#/components/schemas/FeedsFriendsResponseRealMoji"
-						},
-						"type": "array"
-					},
-					"screenshots": {
-						"items": {},
-						"type": "array"
-					},
-					"screenshotsV2": {
-						"items": {},
-						"type": "array"
-					},
-					"visibility": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"id",
-					"notificationID",
-					"ownerID",
-					"userName",
-					"user",
-					"mediaType",
-					"region",
-					"bucket",
-					"photoURL",
-					"imageWidth",
-					"imageHeight",
-					"secondaryPhotoURL",
-					"secondaryImageHeight",
-					"secondaryImageWidth",
-					"members",
-					"lateInSeconds",
-					"isPublic",
-					"retakeCounter",
-					"creationDate",
-					"updatedAt",
-					"takenAt",
-					"comment",
-					"realMojis",
-					"screenshots",
-					"screenshotsV2"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"PurpleProfilePicture": {
-				"properties": {
-					"height": {
-						"type": "number",
-						"format": "double"
-					},
-					"width": {
-						"type": "number",
-						"format": "double"
-					},
-					"url": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"height",
-					"width",
-					"url"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"PurpleUser": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"profilePicture": {
-						"$ref": "#/components/schemas/PurpleProfilePicture"
-					}
-				},
-				"required": [
-					"id",
-					"username",
-					"profilePicture"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"PostRealMoji": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"uid": {
-						"type": "string"
-					},
-					"userName": {
-						"type": "string"
-					},
-					"user": {
-						"$ref": "#/components/schemas/PurpleUser"
-					},
-					"emoji": {
-						"type": "string"
-					},
-					"type": {
-						"type": "string"
-					},
-					"uri": {
-						"type": "string"
-					},
-					"date": {
-						"$ref": "#/components/schemas/CreationDate"
-					}
-				},
-				"required": [
-					"id",
-					"uid",
-					"userName",
-					"user",
-					"emoji",
-					"type",
-					"uri",
-					"date"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Post": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"notificationID": {
-						"type": "string"
-					},
-					"ownerID": {
-						"type": "string"
-					},
-					"userName": {
-						"type": "string"
-					},
-					"user": {
-						"$ref": "#/components/schemas/PostUser"
-					},
-					"mediaType": {
-						"$ref": "#/components/schemas/MediaType"
-					},
-					"region": {
-						"$ref": "#/components/schemas/Region"
-					},
-					"bucket": {
-						"$ref": "#/components/schemas/Bucket"
-					},
-					"photoURL": {
-						"type": "string"
-					},
-					"imageWidth": {
-						"type": "number",
-						"format": "double"
-					},
-					"imageHeight": {
-						"type": "number",
-						"format": "double"
-					},
-					"secondaryPhotoURL": {
-						"type": "string"
-					},
-					"secondaryImageHeight": {
-						"type": "number",
-						"format": "double"
-					},
-					"secondaryImageWidth": {
-						"type": "number",
-						"format": "double"
-					},
-					"lateInSeconds": {
-						"type": "number",
-						"format": "double"
-					},
-					"isPublic": {
-						"type": "boolean"
-					},
-					"location": {
-						"$ref": "#/components/schemas/PostLocation"
-					},
-					"retakeCounter": {
-						"type": "number",
-						"format": "double"
-					},
-					"creationDate": {
-						"$ref": "#/components/schemas/CreationDate"
-					},
-					"updatedAt": {
-						"type": "number",
-						"format": "double"
-					},
-					"takenAt": {
-						"$ref": "#/components/schemas/CreationDate"
-					},
-					"comment": {
-						"items": {},
-						"type": "array"
-					},
-					"realMojis": {
-						"items": {
-							"$ref": "#/components/schemas/PostRealMoji"
-						},
-						"type": "array"
-					},
-					"screenshots": {
-						"items": {},
-						"type": "array"
-					},
-					"screenshotsV2": {
-						"items": {},
-						"type": "array"
-					}
-				},
-				"required": [
-					"id",
-					"notificationID",
-					"ownerID",
-					"userName",
-					"user",
-					"mediaType",
-					"region",
-					"bucket",
-					"photoURL",
-					"imageWidth",
-					"imageHeight",
-					"secondaryPhotoURL",
-					"secondaryImageHeight",
-					"secondaryImageWidth",
-					"lateInSeconds",
-					"isPublic",
-					"retakeCounter",
-					"creationDate",
-					"updatedAt",
-					"takenAt",
-					"comment",
-					"realMojis",
-					"screenshots",
-					"screenshotsV2"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"FeedsDiscoveryResponse": {
-				"properties": {
-					"posts": {
-						"items": {
-							"$ref": "#/components/schemas/Post"
-						},
-						"type": "array"
-					},
-					"lastIndex": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"posts",
-					"lastIndex"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"FeedsMemoriesResponseDatum": {
+			"BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteGetMemoriesData": {
 				"properties": {
 					"id": {
 						"type": "string"
 					},
 					"thumbnail": {
-						"$ref": "#/components/schemas/ProfilePicture"
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileMedia"
 					},
 					"primary": {
-						"$ref": "#/components/schemas/ProfilePicture"
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileMedia"
 					},
 					"secondary": {
-						"$ref": "#/components/schemas/ProfilePicture"
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileMedia"
 					},
 					"isLate": {
 						"type": "boolean"
@@ -871,12 +503,7 @@
 						"type": "string"
 					},
 					"location": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/DatumLocation"
-							}
-						],
-						"nullable": true
+						"$ref": "#/components/schemas/BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteMemoriesLocation"
 					}
 				},
 				"required": [
@@ -891,19 +518,16 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"FeedsMemoriesResponse": {
+			"BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteGetMemoriesResponse": {
 				"properties": {
 					"data": {
 						"items": {
-							"$ref": "#/components/schemas/FeedsMemoriesResponseDatum"
+							"$ref": "#/components/schemas/BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteGetMemoriesData"
 						},
 						"type": "array"
 					},
 					"next": {
-						"type": "number",
-						"enum": [
-							null
-						],
+						"type": "string",
 						"nullable": true
 					},
 					"memoriesSynchronized": {
@@ -1050,23 +674,61 @@
 				"$ref": "#/components/schemas/Pick_RefreshTokenRequest.Exclude_keyofRefreshTokenRequest.grant_type__",
 				"description": "Construct a type with the properties of T except for those in type K."
 			},
-			"Realmoji": {
+			"BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRemoteBlockedUserData": {
+				"description": "bereal.app.repositories.usermoderation.datasources.remote.model.RemoteBlockedUserData",
 				"properties": {
-					"emoji": {
+					"userId": {
 						"type": "string"
 					},
-					"media": {
-						"$ref": "#/components/schemas/ProfilePicture"
+					"blockedAt": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteBasicUser",
+						"description": "bereal.app.repositories.remote_entities.RemoteBasicUser"
 					}
 				},
 				"required": [
-					"emoji",
-					"media"
+					"userId",
+					"blockedAt",
+					"user"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Device": {
+			"BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRemoteGetBlockedUsers": {
+				"description": "bereal.app.repositories.usermoderation.datasources.remote.model.RemoteGetBlockedUsers",
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRemoteBlockedUserData"
+						},
+						"type": "array"
+					},
+					"next": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRequestBlockUser": {
+				"properties": {
+					"blockedUserId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"blockedUserId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfileDevice": {
 				"properties": {
 					"clientVersion": {
 						"type": "string"
@@ -1080,10 +742,10 @@
 					"pushToken": {
 						"type": "string"
 					},
-					"platform": {
+					"language": {
 						"type": "string"
 					},
-					"language": {
+					"platform": {
 						"type": "string"
 					},
 					"timezone": {
@@ -1095,18 +757,43 @@
 					"device",
 					"deviceId",
 					"pushToken",
-					"platform",
 					"language",
+					"platform",
 					"timezone"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Stats": {
+			"RegionCodeModel": {
+				"enum": [
+					"asia-east",
+					"asia-west",
+					"europe-west",
+					"us-central"
+				],
+				"type": "string"
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfileRealmoji": {
+				"properties": {
+					"emoji": {
+						"type": "string"
+					},
+					"media": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileMedia"
+					}
+				},
+				"required": [
+					"emoji",
+					"media"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfileStats": {
 				"properties": {
 					"postTotal": {
 						"type": "number",
-						"format": "double"
+						"format": "int64"
 					}
 				},
 				"required": [
@@ -1115,7 +802,59 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"MeResponse": {
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfileSettingsNotificationsPush": {
+				"properties": {
+					"late": {
+						"type": "boolean"
+					},
+					"comment": {
+						"type": "boolean"
+					},
+					"mention": {
+						"type": "boolean"
+					},
+					"friendRequest": {
+						"type": "boolean"
+					},
+					"realmoji": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"late",
+					"comment",
+					"mention",
+					"friendRequest",
+					"realmoji"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfileSettingsNotification": {
+				"properties": {
+					"push": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileSettingsNotificationsPush"
+					}
+				},
+				"required": [
+					"push"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfileSettings": {
+				"properties": {
+					"notification": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileSettingsNotification"
+					}
+				},
+				"required": [
+					"notification"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BerealAppRepositoriesRemoteEntitiesRemoteMyProfile": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -1123,38 +862,17 @@
 					"username": {
 						"type": "string"
 					},
-					"birthdate": {
+					"newUsername": {
 						"type": "string"
 					},
 					"fullname": {
 						"type": "string"
 					},
-					"profilePicture": {
-						"$ref": "#/components/schemas/ProfilePicture"
-					},
-					"realmojis": {
-						"items": {
-							"$ref": "#/components/schemas/Realmoji"
-						},
-						"type": "array"
-					},
-					"devices": {
-						"items": {
-							"$ref": "#/components/schemas/Device"
-						},
-						"type": "array"
-					},
-					"stats": {
-						"$ref": "#/components/schemas/Stats"
-					},
-					"canDeletePost": {
-						"type": "boolean"
-					},
-					"canUpdateRegion": {
-						"type": "boolean"
-					},
 					"phoneNumber": {
 						"type": "string"
+					},
+					"profilePicture": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileMedia"
 					},
 					"biography": {
 						"type": "string"
@@ -1165,52 +883,37 @@
 					"countryCode": {
 						"type": "string"
 					},
+					"devices": {
+						"items": {
+							"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileDevice"
+						},
+						"type": "array"
+					},
 					"region": {
-						"$ref": "#/components/schemas/Region"
+						"$ref": "#/components/schemas/RegionCodeModel"
+					},
+					"realmojis": {
+						"items": {
+							"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileRealmoji"
+						},
+						"type": "array"
+					},
+					"stats": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileStats"
+					},
+					"settings": {
+						"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfileSettings"
+					},
+					"accountDeleteScheduledAt": {
+						"type": "string"
+					},
+					"canDeletePost": {
+						"type": "boolean"
+					},
+					"canUpdateRegion": {
+						"type": "boolean"
 					},
 					"createdAt": {
-						"type": "string"
-					},
-					"newUsername": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"username",
-					"birthdate",
-					"fullname",
-					"profilePicture",
-					"realmojis",
-					"devices",
-					"stats",
-					"canDeletePost",
-					"canUpdateRegion",
-					"phoneNumber",
-					"biography",
-					"location",
-					"countryCode",
-					"region",
-					"createdAt"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"PersonMePatchRequest": {
-				"properties": {
-					"biography": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"biography"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"PersonMePostRequest": {
-				"properties": {
-					"username": {
 						"type": "string"
 					},
 					"birthdate": {
@@ -1218,25 +921,36 @@
 					}
 				},
 				"required": [
+					"id",
 					"username",
-					"birthdate"
+					"fullname",
+					"phoneNumber",
+					"profilePicture",
+					"biography",
+					"location",
+					"countryCode",
+					"devices",
+					"region",
+					"realmojis",
+					"stats",
+					"canDeletePost",
+					"canUpdateRegion",
+					"createdAt"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"PersonMeUsernamePatchRequest": {
+			"BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteProfilePicture": {
+				"description": "bereal.app.repositories.friending.datasource.remote.api.model.RemoteProfilePicture",
 				"properties": {
-					"username": {
+					"url": {
 						"type": "string"
 					}
 				},
-				"required": [
-					"username"
-				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RelationshipsFriendsResponseDatum": {
+			"BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteFriend": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -1247,11 +961,21 @@
 					"fullname": {
 						"type": "string"
 					},
-					"status": {
+					"photoURL": {
 						"type": "string"
 					},
 					"profilePicture": {
-						"$ref": "#/components/schemas/ProfilePicture"
+						"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteProfilePicture"
+					},
+					"mutualFriends": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"type": "string"
+					},
+					"hashedPhoneNumber": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -1263,164 +987,23 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RelationshipsFriendsResponse": {
+			"BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteGetFriendsResponse": {
+				"description": "bereal.app.repositories.friending.datasource.remote.api.model.RemoteGetFriendsResponse",
 				"properties": {
 					"data": {
 						"items": {
-							"$ref": "#/components/schemas/RelationshipsFriendsResponseDatum"
+							"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteFriend"
 						},
 						"type": "array"
 					},
 					"next": {
-						"type": "number",
-						"enum": [
-							null
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"data",
-					"next"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"RelationshipsFriendRequestsSentResponseDatum": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"fullname": {
-						"type": "string"
-					},
-					"status": {
-						"type": "string"
-					},
-					"profilePicture": {
-						"$ref": "#/components/schemas/ProfilePicture"
-					},
-					"mutualFriends": {
-						"type": "number",
-						"format": "double"
-					},
-					"updatedAt": {
 						"type": "string"
 					}
 				},
-				"required": [
-					"id",
-					"username",
-					"fullname",
-					"status",
-					"profilePicture",
-					"mutualFriends",
-					"updatedAt"
-				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RelationshipsFriendRequestsSentResponse": {
-				"properties": {
-					"data": {
-						"items": {
-							"$ref": "#/components/schemas/RelationshipsFriendRequestsSentResponseDatum"
-						},
-						"type": "array"
-					},
-					"next": {
-						"type": "number",
-						"enum": [
-							null
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"data",
-					"next"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"RelationshipsSuggestionsResponse": {
-				"properties": {
-					"data": {
-						"items": {},
-						"type": "array"
-					},
-					"next": {
-						"type": "number",
-						"enum": [
-							null
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"data",
-					"next"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"RelationshipsFriendRequestsPostResponse": {
-				"properties": {
-					"statusCode": {
-						"type": "number",
-						"format": "double"
-					},
-					"errorKey": {
-						"type": "number",
-						"enum": [
-							null
-						],
-						"nullable": true
-					},
-					"fields": {
-						"type": "number",
-						"enum": [
-							null
-						],
-						"nullable": true
-					},
-					"timestamp": {
-						"type": "string"
-					},
-					"requestId": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"statusCode",
-					"errorKey",
-					"fields",
-					"timestamp",
-					"requestId"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"RelationshipsFriendRequestsPostRequest": {
-				"properties": {
-					"userId": {
-						"type": "string"
-					},
-					"source": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"userId",
-					"source"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"TermsResponseDatum": {
+			"BerealAppRepositoriesTermsDatasourcesRemoteApiModelRemoteTerm": {
 				"properties": {
 					"code": {
 						"type": "string"
@@ -1447,11 +1030,11 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"TermsResponse": {
+			"BerealAppRepositoriesTermsDatasourcesRemoteApiModelRemoteAllTerms": {
 				"properties": {
 					"data": {
 						"items": {
-							"$ref": "#/components/schemas/TermsResponseDatum"
+							"$ref": "#/components/schemas/BerealAppRepositoriesTermsDatasourcesRemoteApiModelRemoteTerm"
 						},
 						"type": "array"
 					}
@@ -1475,97 +1058,6 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/api/moderation/block-users": {
-			"get": {
-				"operationId": "GetBlockedUsers",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ModerationBlockUsersResponse"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "PostBlockUser",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/ModerationBlockUsersRequest"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/moderation/block-users/{userId}": {
-			"delete": {
-				"operationId": "DeleteBlockUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
 		"/api/content/posts/upload-url": {
 			"get": {
 				"operationId": "GetPostsUploadUrl",
@@ -1575,10 +1067,15 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/ContentPostsUploadUrlGetResponse"
+									"properties": {
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/BerealAppRepositoriesCommonModelGetSignedUploadUrlData"
+											},
+											"type": "array"
+										}
 									},
-									"type": "array"
+									"type": "object"
 								}
 							}
 						}
@@ -1606,10 +1103,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/ContentRealmojisUploadUrlGetResponse"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/BerealAppRepositoriesCommonModelGetSingleSignedUploadUrlResponse"
 								}
 							}
 						}
@@ -1657,7 +1151,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ContentPostsVisibilityPatchRequest"
+								"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelMyPostVisibilityRequestBody"
 							}
 						}
 					}
@@ -1693,7 +1187,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ContentPostsCaptionPatchRequest"
+								"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelMyPostCaptionRequestBody"
 							}
 						}
 					}
@@ -1729,7 +1223,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ContentPostsPostRequest"
+								"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteApiPostBody"
 							}
 						}
 					}
@@ -1745,10 +1239,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/FeedsFriendsResponse"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost"
 								}
 							}
 						}
@@ -1776,10 +1267,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/FeedsDiscoveryResponse"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemoteDiscoveryResponse"
 								}
 							}
 						}
@@ -1807,10 +1295,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/FeedsMemoriesResponse"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteGetMemoriesResponse"
 								}
 							}
 						}
@@ -1839,7 +1324,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/FeedsMemoriesResponse"
+										"$ref": "#/components/schemas/BerealAppRepositoriesMemoriesDatasourceRemoteApiModelRemoteGetMemoriesResponse"
 									},
 									"type": "array"
 								}
@@ -1955,6 +1440,92 @@
 				}
 			}
 		},
+		"/api/moderation/block-users": {
+			"get": {
+				"operationId": "GetBlockedUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRemoteGetBlockedUsers"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "PostBlockUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRequestBlockUser"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/moderation/block-users/{userId}": {
+			"delete": {
+				"operationId": "DeleteBlockUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/api/person/me": {
 			"get": {
 				"operationId": "GetMe",
@@ -1964,7 +1535,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/MeResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfile"
 								}
 							}
 						}
@@ -1990,7 +1561,42 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/MeResponse"
+									"properties": {
+										"platform": {
+											"type": "string"
+										},
+										"deviceId": {
+											"type": "string"
+										},
+										"device": {
+											"type": "string"
+										},
+										"clientVersion": {
+											"type": "string"
+										},
+										"pushToken": {
+											"type": "string"
+										},
+										"location": {
+											"type": "string"
+										},
+										"biography": {
+											"type": "string"
+										},
+										"timezone": {
+											"type": "string"
+										},
+										"language": {
+											"type": "string"
+										},
+										"birthdate": {
+											"type": "string"
+										},
+										"fullname": {
+											"type": "string"
+										}
+									},
+									"type": "object"
 								}
 							}
 						}
@@ -2012,7 +1618,42 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/PersonMePatchRequest"
+								"properties": {
+									"platform": {
+										"type": "string"
+									},
+									"deviceId": {
+										"type": "string"
+									},
+									"device": {
+										"type": "string"
+									},
+									"clientVersion": {
+										"type": "string"
+									},
+									"pushToken": {
+										"type": "string"
+									},
+									"location": {
+										"type": "string"
+									},
+									"biography": {
+										"type": "string"
+									},
+									"timezone": {
+										"type": "string"
+									},
+									"language": {
+										"type": "string"
+									},
+									"birthdate": {
+										"type": "string"
+									},
+									"fullname": {
+										"type": "string"
+									}
+								},
+								"type": "object"
 							}
 						}
 					}
@@ -2021,8 +1662,15 @@
 			"post": {
 				"operationId": "PostMe",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfile"
+								}
+							}
+						}
 					}
 				},
 				"security": [],
@@ -2041,7 +1689,44 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/PersonMePostRequest"
+								"properties": {
+									"parentalConsentRequestId": {
+										"type": "string"
+									},
+									"platform": {
+										"type": "string"
+									},
+									"deviceId": {
+										"type": "string"
+									},
+									"device": {
+										"type": "string"
+									},
+									"clientVersion": {
+										"type": "string"
+									},
+									"pushToken": {
+										"type": "string"
+									},
+									"language": {
+										"type": "string"
+									},
+									"birthdate": {
+										"type": "string"
+									},
+									"fullname": {
+										"type": "string"
+									},
+									"username": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"birthdate",
+									"fullname",
+									"username"
+								],
+								"type": "object"
 							}
 						}
 					}
@@ -2057,7 +1742,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/MeResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesRemoteEntitiesRemoteMyProfile"
 								}
 							}
 						}
@@ -2079,7 +1764,15 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/PersonMeUsernamePatchRequest"
+								"properties": {
+									"username": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"username"
+								],
+								"type": "object"
 							}
 						}
 					}
@@ -2095,7 +1788,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/RelationshipsFriendsResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteGetFriendsResponse"
 								}
 							}
 						}
@@ -2123,7 +1816,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/RelationshipsFriendRequestsSentResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteGetFriendsResponse"
 								}
 							}
 						}
@@ -2151,7 +1844,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/RelationshipsSuggestionsResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteGetFriendsResponse"
 								}
 							}
 						}
@@ -2179,7 +1872,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/RelationshipsSuggestionsResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteGetFriendsResponse"
 								}
 							}
 						}
@@ -2207,7 +1900,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/RelationshipsFriendRequestsPostResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteFriend"
 								}
 							}
 						}
@@ -2229,7 +1922,15 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RelationshipsFriendRequestsPostRequest"
+								"properties": {
+									"userId": {
+										"type": "string"
+									},
+									"source": {
+										"type": "string"
+									}
+								},
+								"type": "object"
 							}
 						}
 					}
@@ -2245,7 +1946,9 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {},
+									"items": {
+										"$ref": "#/components/schemas/BerealAppRepositoriesFriendingDatasourceRemoteApiModelRemoteFriend"
+									},
 									"type": "array"
 								}
 							}
@@ -2268,10 +1971,15 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"items": {
-									"type": "string"
+								"properties": {
+									"phoneNumbers": {
+										"items": {
+											"type": "string"
+										},
+										"type": "array"
+									}
 								},
-								"type": "array"
+								"type": "object"
 							}
 						}
 					}
@@ -2287,7 +1995,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/TermsResponse"
+									"$ref": "#/components/schemas/BerealAppRepositoriesTermsDatasourcesRemoteApiModelRemoteAllTerms"
 								}
 							}
 						}
@@ -2304,6 +2012,91 @@
 						}
 					}
 				]
+			}
+		},
+		"/api/terms/terms/{code}": {
+			"get": {
+				"operationId": "GetTermsCode",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BerealAppRepositoriesTermsDatasourcesRemoteApiModelRemoteTerm"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "PutTermsCode",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BerealAppRepositoriesTermsDatasourcesRemoteApiModelRemoteTerm"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"status": {
+										"type": "string"
+									}
+								},
+								"type": "object"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
