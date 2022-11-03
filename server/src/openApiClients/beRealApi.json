@@ -1203,14 +1203,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/authorization"
-          },
-          {
-            "in": "path",
-            "name": "blockedUserId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "tags": [
@@ -1994,14 +1986,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/authorization"
-          },
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "tags": [
