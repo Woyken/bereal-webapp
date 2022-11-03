@@ -10,15 +10,18 @@ import { AxiosError } from "axios";
 import { RegisterRoutes } from "../build/routes";
 import cors from "cors";
 import path from "path";
+const nodeEnv = process.env.NODE_ENV?.trim();
 
 const app = express();
-const options = process.env.NODE_ENV === 'development' ? {
-  key: fs.readFileSync(__dirname + "/ssl/key.pem"),
-  cert: fs.readFileSync(__dirname + "/ssl/cert.pem"),
-} : undefined;
-const server = process.env.NODE_ENV === 'development'
-  ? createServer(options!, app)
-  : createServer(app);
+const options =
+  nodeEnv === "development"
+    ? {
+        key: fs.readFileSync(__dirname + "/ssl/key.pem"),
+        cert: fs.readFileSync(__dirname + "/ssl/cert.pem"),
+      }
+    : undefined;
+const server =
+  nodeEnv === "development" ? createServer(options!, app) : createServer(app);
 const port = process.env.PORT || 3000;
 
 var allowedOrigins = ["https://localhost:3001", "https://woyken.github.io"];
