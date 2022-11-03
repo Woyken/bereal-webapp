@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Header, Post, Route } from "tsoa";
-import { Api } from "../openApiClients/generated/beRealApi";
+import { createBeRealClient } from "../utils/beRealApiClient";
 import { getHeadersWithAuth } from "../utils/headersUtils";
 
 @Route("api/relationships")
 export class RelationshipsController extends Controller {
-  private api = new Api().relationships;
+  private api = createBeRealClient().relationships;
 
   @Get("/friends")
   public async getFriends(@Header("authorization") auth: string) {

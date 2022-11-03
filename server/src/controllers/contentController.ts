@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Header, Patch, Post, Route } from "tsoa";
 import {
-  Api,
   BerealAppRepositoriesPostDatasourcesRemoteApiPostBody,
   BerealAppRepositoriesPostDatasourcesRemoteModelMyPostCaptionRequestBody,
   BerealAppRepositoriesPostDatasourcesRemoteModelMyPostVisibilityRequestBody,
 } from "../openApiClients/generated/beRealApi";
+import { createBeRealClient } from "../utils/beRealApiClient";
 import { getHeadersWithAuth } from "../utils/headersUtils";
 
 @Route("api/content")
 export class ContentController extends Controller {
-  private api = new Api().content;
+  private api = createBeRealClient().content;
 
   @Get("/posts/upload-url")
   public async getPostsUploadUrl(@Header("authorization") auth: string) {

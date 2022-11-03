@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Header, Path, Put, Route } from "tsoa";
-import { Api } from "../openApiClients/generated/beRealApi";
+import { createBeRealClient } from "../utils/beRealApiClient";
 import { getHeadersWithAuth } from "../utils/headersUtils";
 
 @Route("api/terms")
 export class TermsController extends Controller {
-  private api = new Api().terms;
+  private api = createBeRealClient().terms;
 
   @Get("/")
   public async getTerms(@Header("authorization") auth: string) {

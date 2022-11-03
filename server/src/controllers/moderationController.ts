@@ -1,13 +1,11 @@
 import { Body, Controller, Delete, Get, Header, Path, Post, Route } from "tsoa";
-import {
-  Api,
-  BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRequestBlockUser,
-} from "../openApiClients/generated/beRealApi";
+import { BerealAppRepositoriesUsermoderationDatasourcesRemoteModelRequestBlockUser } from "../openApiClients/generated/beRealApi";
+import { createBeRealClient } from "../utils/beRealApiClient";
 import { getHeadersWithAuth } from "../utils/headersUtils";
 
 @Route("api/moderation")
 export class ModerationController extends Controller {
-  private api = new Api().moderation;
+  private api = createBeRealClient().moderation;
 
   @Get("/block-users")
   public async getBlockedUsers(@Header("authorization") auth: string) {
