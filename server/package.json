@@ -18,7 +18,7 @@
       "src"
     ],
     "ext": "ts",
-    "exec": "ts-node src/index.ts"
+    "exec": "SET NODE_ENV=development && ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
