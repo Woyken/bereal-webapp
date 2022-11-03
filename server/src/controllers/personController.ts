@@ -1,52 +1,44 @@
 import { Body, Controller, Get, Header, Patch, Post, Route } from "tsoa";
-import {
-  MeResponse,
-  PersonMePatchRequest,
-  PersonMePostRequest,
-  PersonMeUsernamePatchRequest,
-} from "../api/berealApiTypes";
-import {
-  makeBerealGetRequest,
-  makeBerealPatchRequest,
-  makeBerealPostRequest,
-} from "./moderationController";
+import { Api } from "../openApiClients/generated/beRealApi";
+import { getHeadersWithAuth } from "../utils/headersUtils";
 
 @Route("api/person")
 export class PersonController extends Controller {
+  private api = new Api().person;
+
   @Get("/me")
   public async getMe(@Header("authorization") auth: string) {
-    return await makeBerealGetRequest<MeResponse>("api/person/me", auth);
+    const response = await this.api.getMe(getHeadersWithAuth(auth));
+    return response.data;
   }
 
   @Patch("/me")
   public async patchMe(
     @Header("authorization") auth: string,
-    @Body() data: PersonMePatchRequest
+    @Body() data: Parameters<typeof this.api.patchMe>[0]
   ) {
-    return await makeBerealPatchRequest<MeResponse>(
-      "api/person/me",
-      auth,
-      data
-    );
+    const response = await this.api.patchMe(data, getHeadersWithAuth(auth));
+    return response.data;
   }
 
   @Post("/me")
   public async postMe(
     @Header("authorization") auth: string,
-    @Body() data: PersonMePostRequest
+    @Body() data: Parameters<typeof this.api.postMe>[0]
   ) {
-    return await makeBerealPostRequest<undefined>("api/person/me", auth, data);
+    const response = await this.api.postMe(data, getHeadersWithAuth(auth));
+    return response.data;
   }
 
   @Patch("/me/username")
   public async patchMeUsername(
     @Header("authorization") auth: string,
-    @Body() data: PersonMeUsernamePatchRequest
+    @Body() data: Parameters<typeof this.api.patchMeUsername>[0]
   ) {
-    return await makeBerealPatchRequest<MeResponse>(
-      "api/suggestions",
-      auth,
-      data
+    const response = await this.api.patchMeUsername(
+      data,
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 }

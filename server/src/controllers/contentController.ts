@@ -1,64 +1,65 @@
 import { Body, Controller, Get, Header, Patch, Post, Route } from "tsoa";
 import {
-  ContentPostsCaptionPatchRequest,
-  ContentPostsPostRequest,
-  ContentPostsUploadUrlGetResponse,
-  ContentPostsVisibilityPatchRequest,
-  ContentRealmojisUploadUrlGetResponse,
-} from "../api/berealApiTypes";
-import {
-  makeBerealGetRequest,
-  makeBerealPatchRequest,
-  makeBerealPostRequest,
-} from "./moderationController";
+  Api,
+  BerealAppRepositoriesPostDatasourcesRemoteApiPostBody,
+  BerealAppRepositoriesPostDatasourcesRemoteModelMyPostCaptionRequestBody,
+  BerealAppRepositoriesPostDatasourcesRemoteModelMyPostVisibilityRequestBody,
+} from "../openApiClients/generated/beRealApi";
+import { getHeadersWithAuth } from "../utils/headersUtils";
 
 @Route("api/content")
 export class ContentController extends Controller {
+  private api = new Api().content;
+
   @Get("/posts/upload-url")
   public async getPostsUploadUrl(@Header("authorization") auth: string) {
-    return await makeBerealGetRequest<ContentPostsUploadUrlGetResponse[]>(
-      "api/content/posts/upload-url",
-      auth
+    const response = await this.api.getPostsUploadUrl(
+      { mimeType: "image/webp" },
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 
   @Get("/realmojis/upload-url")
   public async getRealmojisUploadUrl(@Header("authorization") auth: string) {
-    return await makeBerealGetRequest<ContentRealmojisUploadUrlGetResponse[]>(
-      "api/content/realmojis/upload-url",
-      auth
+    const response = await this.api.getRealmojisUploadUrl(
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 
   @Patch("/posts/visibility")
   public async patchPostVisibility(
     @Header("authorization") auth: string,
-    @Body() data: ContentPostsVisibilityPatchRequest
+    @Body()
+    data: BerealAppRepositoriesPostDatasourcesRemoteModelMyPostVisibilityRequestBody
   ) {
-    return await makeBerealPatchRequest(
-      "api/content/posts/visibility",
-      auth,
-      data
+    const response = await this.api.patchContentPostsVisibility(
+      data,
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 
   @Patch("/posts/caption")
   public async patchPostCaption(
     @Header("authorization") auth: string,
-    @Body() data: ContentPostsCaptionPatchRequest
+    @Body()
+    data: BerealAppRepositoriesPostDatasourcesRemoteModelMyPostCaptionRequestBody
   ) {
-    return await makeBerealPatchRequest(
-      "api/content/posts/caption",
-      auth,
-      data
+    const response = await this.api.patchPostCaption(
+      data,
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 
   @Post("/posts")
   public async postNewPost(
     @Header("authorization") auth: string,
-    @Body() data: ContentPostsPostRequest
+    @Body() data: BerealAppRepositoriesPostDatasourcesRemoteApiPostBody
   ) {
-    return await makeBerealPostRequest("api/content/posts", auth, data);
+    const response = await this.api.postNewPost(data, getHeadersWithAuth(auth));
+    return response.data;
   }
 }

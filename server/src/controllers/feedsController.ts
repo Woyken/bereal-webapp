@@ -1,35 +1,33 @@
 import { Controller, Delete, Get, Header, Path, Route } from "tsoa";
-import {
-  FeedsDiscoveryResponse,
-  FeedsFriendsResponse,
-  FeedsMemoriesResponse,
-} from "../api/berealApiTypes";
-import { makeBerealGetRequest } from "./moderationController";
+import { Api } from "../openApiClients/generated/beRealApi";
+import { getHeadersWithAuth } from "../utils/headersUtils";
 
 @Route("api/feeds")
 export class FeedsController extends Controller {
+  private api = new Api().feeds;
+
   @Get("/friends")
   public async getFriends(@Header("authorization") auth: string) {
-    return await makeBerealGetRequest<FeedsFriendsResponse[]>(
-      "api/feeds/friends",
-      auth
-    );
+    const response = await this.api.getFriends(getHeadersWithAuth(auth));
+    return response.data;
   }
 
   @Get("/discovery")
   public async getDiscovery(@Header("authorization") auth: string) {
-    return await makeBerealGetRequest<FeedsDiscoveryResponse[]>(
-      "api/feeds/discovery",
-      auth
+    const response = await this.api.getFeedsDiscovery(
+      {},
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 
   @Get("/memories")
   public async getMemories(@Header("authorization") auth: string) {
-    return await makeBerealGetRequest<FeedsMemoriesResponse[]>(
-      "api/feeds/memories",
-      auth
+    const response = await this.api.getFeedsMemories(
+      {},
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 
   @Delete("/memories/{memoryId}")
@@ -37,9 +35,10 @@ export class FeedsController extends Controller {
     @Header("authorization") auth: string,
     @Path("memoryId") memoryId: string
   ) {
-    return await makeBerealGetRequest<FeedsMemoriesResponse[]>(
-      `api/feeds/memories/${encodeURI(memoryId)}`,
-      auth
+    const response = await this.api.deleteMemory(
+      memoryId,
+      getHeadersWithAuth(auth)
     );
+    return response.data;
   }
 }
