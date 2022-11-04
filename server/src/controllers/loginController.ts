@@ -1,4 +1,3 @@
-import { Request as ERequest } from "express";
 import axios from "axios";
 import { Body, Controller, Post, Request, Route } from "tsoa";
 import {
@@ -10,13 +9,11 @@ import {
   VerifyPhoneNumberResponse,
 } from "../api/googleApiTypes";
 import envConfig from "../envConfig";
-import { getAbortSignalForRequest } from "../utils/abortSignalForRequest";
 
 @Route("api/login")
 export class LoginController extends Controller {
   @Post("/sendVerificationCode")
   public async postSendVerificationCode(
-    @Request() req: ERequest,
     @Body() data: Omit<SendVerificationCodeRequest, "iosReceipt">
   ) {
     const params = new URLSearchParams({ key: envConfig.loginKey });
@@ -28,7 +25,6 @@ export class LoginController extends Controller {
         headers: {
           "x-ios-bundle-identifier": envConfig.iosBundleId,
         },
-        signal: getAbortSignalForRequest(req),
       }
     );
     return response.data;
@@ -36,7 +32,6 @@ export class LoginController extends Controller {
 
   @Post("/verifyPhoneNumber")
   public async postVerifyPhoneNumber(
-    @Request() req: ERequest,
     @Body() data: Omit<VerifyPhoneNumberRequest, "operation">
   ) {
     const params = new URLSearchParams({ key: envConfig.loginKey });
@@ -48,7 +43,6 @@ export class LoginController extends Controller {
         headers: {
           "x-ios-bundle-identifier": envConfig.iosBundleId,
         },
-        signal: getAbortSignalForRequest(req),
       }
     );
     return response.data;
@@ -56,7 +50,6 @@ export class LoginController extends Controller {
 
   @Post("/refreshToken")
   public async postRefreshToken(
-    @Request() req: ERequest,
     @Body() data: Omit<RefreshTokenRequest, "grant_type">
   ) {
     const params = new URLSearchParams({ key: envConfig.loginKey });
@@ -68,7 +61,6 @@ export class LoginController extends Controller {
         headers: {
           "x-ios-bundle-identifier": envConfig.iosBundleId,
         },
-        signal: getAbortSignalForRequest(req),
       }
     );
     return response.data;
