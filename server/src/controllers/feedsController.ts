@@ -31,8 +31,29 @@ export class FeedsController extends Controller {
     return response.data;
   }
 
-  //getFeedsMemoriesVideo
-  //deleteFeedsMemoriesVideo
+  @Get("/memories/video")
+  public async getFeedsMemoriesVideo(
+    @Request() req: ERequest,
+    @Header("authorization") auth: string
+  ) {
+    const response = await this.api.getFeedsMemoriesVideo({
+      ...getHeadersWithAuth(auth),
+      signal: getAbortSignalForRequest(req),
+    });
+    return response.data;
+  }
+
+  @Delete("/memories/video")
+  public async deleteFeedsMemoriesVideo(
+    @Request() req: ERequest,
+    @Header("authorization") auth: string
+  ) {
+    const response = await this.api.deleteFeedsMemoriesVideo({
+      ...getHeadersWithAuth(auth),
+      signal: getAbortSignalForRequest(req),
+    });
+    return response.data;
+  }
 
   @Delete("/memories/{memoryId}")
   public async deleteFeedsMemory(

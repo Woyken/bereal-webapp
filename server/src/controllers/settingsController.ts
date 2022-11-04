@@ -33,8 +33,8 @@ export class settingsController extends Controller {
     return response.data;
   }
 
-  @Put("/aaaaaaaaaaaaaaaaaaaaaaaaa")
-  public async aaaaaaaaaaaaaaaaaaaaaa(
+  @Put("/notification-push")
+  public async putSettingsNotificationPush(
     @Request() req: ERequest,
     @Header("authorization") auth: string,
     @Body()

@@ -6,7 +6,6 @@ import {
   Get,
   Header,
   Patch,
-  Path,
   Post,
   Put,
   Query,
@@ -95,8 +94,8 @@ export class ContentController extends Controller {
   public async deleteContentRealmojis(
     @Request() req: ERequest,
     @Header("authorization") auth: string,
-    @Path("postId") postId: string,
-    @Path("realmojiIds") realmojiIds: string[]
+    @Query("postId") postId: string,
+    @Query("realmojiIds") realmojiIds: string[]
   ) {
     const response = await this.api.deleteContentRealmojis(
       { postId },
@@ -160,7 +159,7 @@ export class ContentController extends Controller {
     @Request() req: ERequest,
     @Header("authorization") auth: string,
     @Query("postId") postId: string,
-    @Path("commentIds") commentIds: string[]
+    @Query("commentIds") commentIds: string[]
   ) {
     const response = await this.api.deleteContentComments(
       { commentIds },
