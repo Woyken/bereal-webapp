@@ -18,7 +18,7 @@ export class FeedsController extends Controller {
   private api = createBeRealClient().feeds;
 
   @Get("/memories")
-  public async getMemories(
+  public async getFeedsMemories(
     @Request() req: ERequest,
     @Header("authorization") auth: string,
     @Query("from") from?: string,

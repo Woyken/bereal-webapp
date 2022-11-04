@@ -17,7 +17,7 @@ export const useFriendsPostsQuery = () => {
   const requestProps = usePropsHeadersAuthorization();
   return createQuery(
     () => ["feeds", "friends"],
-    () => client.api.getFriends(requestProps()).then((r) => r.data),
+    () => client.api.getFeedsFriends(requestProps()).then((r) => r.data),
     { suspense: true }
   );
 };
@@ -27,7 +27,10 @@ export const useDiscoveryPostsQuery = () => {
   const requestProps = usePropsHeadersAuthorization();
   return createQuery(
     () => ["feeds", "discovery"],
-    () => client.api.getDiscovery(requestProps()).then((r) => r.data)
+    () =>
+      client.api
+        .getFeedsDiscovery(undefined, requestProps())
+        .then((r) => r.data)
   );
 };
 
@@ -36,7 +39,7 @@ export const useMemoryPostsQuery = () => {
   const requestProps = usePropsHeadersAuthorization();
   return createQuery(
     () => ["feeds", "memory"],
-    () => client.api.getMemories(requestProps()).then((r) => r.data)
+    () => client.api.getFeedsMemories(undefined, requestProps()).then((r) => r.data)
   );
 };
 

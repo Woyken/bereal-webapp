@@ -1808,7 +1808,7 @@
 		},
 		"/api/feeds/memories": {
 			"get": {
-				"operationId": "GetMemories",
+				"operationId": "GetFeedsMemories",
 				"responses": {
 					"200": {
 						"description": "Ok",
