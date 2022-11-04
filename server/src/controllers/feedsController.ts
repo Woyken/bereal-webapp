@@ -1,5 +1,14 @@
 import { Request as ERequest } from "express";
-import { Controller, Delete, Get, Header, Path, Request, Route } from "tsoa";
+import {
+  Controller,
+  Delete,
+  Get,
+  Header,
+  Path,
+  Query,
+  Request,
+  Route,
+} from "tsoa";
 import { getAbortSignalForRequest } from "../utils/abortSignalForRequest";
 import { createBeRealClient } from "../utils/beRealApiClient";
 import { getHeadersWithAuth } from "../utils/headersUtils";
@@ -8,12 +17,30 @@ import { getHeadersWithAuth } from "../utils/headersUtils";
 export class FeedsController extends Controller {
   private api = createBeRealClient().feeds;
 
-  @Get("/friends")
-  public async getFriends(
+  @Get("/memories")
+  public async getMemories(
     @Request() req: ERequest,
-    @Header("authorization") auth: string
+    @Header("authorization") auth: string,
+    @Query("from") from?: string,
+    @Query("limit") limit?: string
   ) {
-    const response = await this.api.getFriends({
+    const response = await this.api.getFeedsMemories(
+      { from, limit },
+      { ...getHeadersWithAuth(auth), signal: getAbortSignalForRequest(req) }
+    );
+    return response.data;
+  }
+
+  //getFeedsMemoriesVideo
+  //deleteFeedsMemoriesVideo
+
+  @Delete("/memories/{memoryId}")
+  public async deleteFeedsMemory(
+    @Request() req: ERequest,
+    @Header("authorization") auth: string,
+    @Path("memoryId") memoryId: string
+  ) {
+    const response = await this.api.deleteMemory(memoryId, {
       ...getHeadersWithAuth(auth),
       signal: getAbortSignalForRequest(req),
     });
@@ -21,36 +48,38 @@ export class FeedsController extends Controller {
   }
 
   @Get("/discovery")
-  public async getDiscovery(
-    @Request() req: ERequest,
-    @Header("authorization") auth: string
-  ) {
-    const response = await this.api.getFeedsDiscovery(
-      {},
-      { ...getHeadersWithAuth(auth), signal: getAbortSignalForRequest(req) }
-    );
-    return response.data;
-  }
-
-  @Get("/memories")
-  public async getMemories(
-    @Request() req: ERequest,
-    @Header("authorization") auth: string
-  ) {
-    const response = await this.api.getFeedsMemories(
-      {},
-      { ...getHeadersWithAuth(auth), signal: getAbortSignalForRequest(req) }
-    );
-    return response.data;
-  }
-
-  @Delete("/memories/{memoryId}")
-  public async deleteMemory(
+  public async getFeedsDiscovery(
     @Request() req: ERequest,
     @Header("authorization") auth: string,
-    @Path("memoryId") memoryId: string
+    @Query("lastIndex") lastIndex?: string,
+    @Query("limit") limit?: string
   ) {
-    const response = await this.api.deleteMemory(memoryId, {
+    const response = await this.api.getFeedsDiscovery(
+      { lastIndex, limit },
+      { ...getHeadersWithAuth(auth), signal: getAbortSignalForRequest(req) }
+    );
+    return response.data;
+  }
+
+  @Get("/friends-of-friends")
+  public async getFeedsFriendsOfFriends(
+    @Request() req: ERequest,
+    @Header("authorization") auth: string,
+    @Query("page") page?: string
+  ) {
+    const response = await this.api.getFeedsFriendsOfFriends(
+      { page },
+      { ...getHeadersWithAuth(auth), signal: getAbortSignalForRequest(req) }
+    );
+    return response.data;
+  }
+
+  @Get("/friends")
+  public async getFeedsFriends(
+    @Request() req: ERequest,
+    @Header("authorization") auth: string
+  ) {
+    const response = await this.api.getFriends({
       ...getHeadersWithAuth(auth),
       signal: getAbortSignalForRequest(req),
     });

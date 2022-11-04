@@ -8,12 +8,14 @@ import { getHeadersWithAuth } from "../utils/headersUtils";
 export class TermsController extends Controller {
   private api = createBeRealClient().terms;
 
-  @Get("/")
-  public async getTerms(
+  @Put("/terms/{code}")
+  public async putTermsCode(
     @Request() req: ERequest,
-    @Header("authorization") auth: string
+    @Header("authorization") auth: string,
+    @Path("code") code: string,
+    @Body() data: Parameters<typeof this.api.putTermsCode>[1]
   ) {
-    const response = await this.api.getTerms({
+    const response = await this.api.putTermsCode(code, data, {
       ...getHeadersWithAuth(auth),
       signal: getAbortSignalForRequest(req),
     });
@@ -33,14 +35,12 @@ export class TermsController extends Controller {
     return response.data;
   }
 
-  @Put("/terms/{code}")
-  public async putTermsCode(
+  @Get("/")
+  public async getTerms(
     @Request() req: ERequest,
-    @Header("authorization") auth: string,
-    @Path("code") code: string,
-    @Body() data: Parameters<typeof this.api.putTermsCode>[1]
+    @Header("authorization") auth: string
   ) {
-    const response = await this.api.putTermsCode(code, data, {
+    const response = await this.api.getTerms({
       ...getHeadersWithAuth(auth),
       signal: getAbortSignalForRequest(req),
     });
