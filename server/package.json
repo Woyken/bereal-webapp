@@ -11,7 +11,7 @@
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "swagger": "tsoa spec-and-routes",
     "postinstall": "npm run gen:bereal-wrapper",
-    "gen:bereal-wrapper": "swagger-typescript-api --axios -p ./src/openApiClients/beRealApi.json -o ./src/openApiClients/generated -n beRealApi.ts"
+    "gen:bereal-wrapper": "swagger-typescript-api --axios -t ./client-templates -p ./src/openApiClients/beRealApi.json -o ./src/openApiClients/generated -n beRealApi.ts"
   },
   "nodemonConfig": {
     "watch": [
