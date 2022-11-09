@@ -12,6 +12,7 @@ import {
 } from "../openApiClients/generated/berealWrapper";
 import BerealFeedImage from "./berealFeedImage";
 import RealmojiSquished from "./realmojiSquished";
+import css from "./feedCard.module.css";
 
 const isToday = (someDate: Date) => {
   const today = new Date();
@@ -79,11 +80,13 @@ const FeedCard = ({
             </Show>
           </Stack>
         </Stack>
-        <BerealFeedImage
-          primaryUrl={item.photoURL!}
-          secondaryUrl={item.secondaryPhotoURL!}
-        />
-        <RealmojiSquished realmojis={item.realMojis} />
+        <div class={css.feedPostImageWrapper}>
+          <BerealFeedImage
+            primaryUrl={item.photoURL!}
+            secondaryUrl={item.secondaryPhotoURL!}
+          />
+          <RealmojiSquished realmojis={item.realMojis} />
+        </div>
         <Show when={item.caption}>
           <Typography color="text.secondary">{item.caption}</Typography>
         </Show>
