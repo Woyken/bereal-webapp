@@ -15,7 +15,7 @@ import {
   FeedsFriendsResponse,
 } from "../openApiClients/generated/berealWrapper";
 import { PropsWithClass } from "../utils/propsWithClass";
-import BerealFeedImage from "./berealPostImage";
+import BerealFeedImage from "./berealFeedImage";
 
 // Pretty good reverse engineered API can be found here https://github.com/notmarek/BeFake/blob/master/insomnia.json
 

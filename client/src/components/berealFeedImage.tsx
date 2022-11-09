@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { createMemo, createSignal } from "solid-js";
-import styles from "./berealPostImage.module.css";
+import styles from "./berealFeedImage.module.css";
 
 type Props = {
   primaryUrl: string;
