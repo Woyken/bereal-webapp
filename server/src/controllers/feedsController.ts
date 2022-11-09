@@ -100,7 +100,7 @@ export class FeedsController extends Controller {
     @Request() req: ERequest,
     @Header("authorization") auth: string
   ) {
-    const response = await this.api.getFriends({
+    const response = await this.api.getFeedsFriends({
       ...getHeadersWithAuth(auth),
       signal: getAbortSignalForRequest(req),
     });
