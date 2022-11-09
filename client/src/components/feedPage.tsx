@@ -16,6 +16,7 @@ import {
 } from "../openApiClients/generated/berealWrapper";
 import { PropsWithClass } from "../utils/propsWithClass";
 import BerealFeedImage from "./berealFeedImage";
+import RealmojiSquished from "./realmojiSquished";
 
 // Pretty good reverse engineered API can be found here https://github.com/notmarek/BeFake/blob/master/insomnia.json
 
@@ -89,6 +90,7 @@ const FeedCard = ({
           primaryUrl={item.photoURL!}
           secondaryUrl={item.secondaryPhotoURL!}
         />
+        <RealmojiSquished realmojis={item.realMojis} />
         <Show when={item.caption}>
           <Typography color="text.secondary">{item.caption}</Typography>
         </Show>
