@@ -2039,7 +2039,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost"
+									"items": {
+										"$ref": "#/components/schemas/BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost"
+									},
+									"type": "array"
 								}
 							}
 						}

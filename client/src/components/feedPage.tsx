@@ -11,8 +11,8 @@ import { Show, For, Suspense } from "solid-js";
 import useRequireLogin from "../hooks/requireLogin";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
 import {
-  CreationDate,
-  FeedsFriendsResponse,
+  BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp,
+  BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost,
 } from "../openApiClients/generated/berealWrapper";
 import { PropsWithClass } from "../utils/propsWithClass";
 import BerealFeedImage from "./berealFeedImage";
@@ -29,7 +29,7 @@ const isToday = (someDate: Date) => {
 };
 
 const getTimePostedText = (
-  creationDate: CreationDate,
+  creationDate: BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp,
   lateInSeconds: number
 ) => {
   const postedDate = new Date(
@@ -45,19 +45,26 @@ const getTimePostedText = (
   return "Yesterday at " + timeStr;
 };
 
-const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
-  const postedAt = getTimePostedText(item.creationDate, item.lateInSeconds);
+const FeedCard = ({
+  item,
+}: {
+  item: BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost;
+}) => {
+  const postedAt = getTimePostedText(
+    item.creationDate ?? { _nanoseconds: 0, _seconds: 0 },
+    item.lateInSeconds ?? 0
+  );
 
   return (
     <Card sx={{ maxWidth: 505 }}>
       <CardContent>
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar src={item.user.profilePicture?.url}>
-            {item.user.username.replaceAll(".", "").substring(0, 5)}
+          <Avatar src={item.user?.profilePicture?.url}>
+            {item.user?.username?.replaceAll(".", "").substring(0, 5)}
           </Avatar>
           <Stack spacing={-1}>
             <Typography color="text.primary" gutterBottom>
-              {item.user.username}
+              {item.user?.username}
             </Typography>
             <Show when={item.location}>
               <Typography color="text.secondary">
@@ -79,16 +86,16 @@ const FeedCard = ({ item }: { item: FeedsFriendsResponse }) => {
           </Stack>
         </Stack>
         <BerealFeedImage
-          primaryUrl={item.photoURL}
-          secondaryUrl={item.secondaryPhotoURL}
+          primaryUrl={item.photoURL!}
+          secondaryUrl={item.secondaryPhotoURL!}
         />
         <Show when={item.caption}>
           <Typography color="text.secondary">{item.caption}</Typography>
         </Show>
       </CardContent>
       <CardActions>
-        <Show when={item.comment.length}>
-          <Button size="small">Comments {item.comment.length}</Button>
+        <Show when={item.comment?.length}>
+          <Button size="small">Comments {item.comment?.length}</Button>
         </Show>
       </CardActions>
     </Card>
