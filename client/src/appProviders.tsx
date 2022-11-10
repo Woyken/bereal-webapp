@@ -8,11 +8,12 @@ import {
 import { ErrorBoundary, ParentProps } from "solid-js";
 import { UserTokenProvider } from "./components/userTokenProvider";
 import { BerealWrapperClientProvider } from "./openApiClients/berealWrapperClient";
+import { useAppTheme } from "./theme";
 // import { useAppTheme } from "./theme";
 import { persistWithIndexedDB } from "./utils/offlineQueryCache";
 
 const AppProviders = (props: ParentProps) => {
-  // const theme = useAppTheme();
+  const hopeConfig = useAppTheme();
   const queryCache = new QueryCache();
   const client = new QueryClient({
     queryCache,
@@ -25,7 +26,7 @@ const AppProviders = (props: ParentProps) => {
     <>
       <BerealWrapperClientProvider>
         <QueryClientProvider client={client}>
-          <HopeProvider>
+          <HopeProvider config={hopeConfig} enableCssReset>
             {/* <CssBaseline /> */}
             <UserTokenProvider>
               <ErrorBoundary

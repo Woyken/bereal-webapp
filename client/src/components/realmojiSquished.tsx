@@ -1,7 +1,6 @@
-import { Avatar } from "@hope-ui/solid";
+import { Avatar, AvatarExcess, Box } from "@hope-ui/solid";
 import { For, Show } from "solid-js";
 import { BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "../openApiClients/generated/berealWrapper";
-import css from "./realmojiSquished.module.css";
 
 const RealmojiSquished = ({
   realmojis,
@@ -12,17 +11,28 @@ const RealmojiSquished = ({
   const allLength = realmojis?.length ?? 0;
   const limitedLength = limitedRealmojis?.length ?? 0;
   const extraText =
-    allLength > limitedLength ? `${allLength - limitedLength}+` : undefined;
+    allLength > limitedLength ? `+${allLength - limitedLength}` : undefined;
 
   return (
-    <div class={css.realmojiSquishedFlow}>
+    <Box
+      position="absolute"
+      bottom="$2"
+      left="$5"
+      display="flex"
+      flexDirection="row-reverse"
+      justifyContent="start"
+    >
       <Show when={extraText}>
-        <Avatar class={css.avatar}>{extraText}</Avatar>
+        <AvatarExcess marginLeft="-$2" withBorder>
+          {extraText}
+        </AvatarExcess>
       </Show>
       <For each={limitedRealmojis}>
-        {(realmoji) => <Avatar class={css.avatar} src={realmoji.uri} />}
+        {(realmoji) => (
+          <Avatar marginLeft="-$2" withBorder src={realmoji.uri} />
+        )}
       </For>
-    </div>
+    </Box>
   );
 };
 

@@ -1,19 +1,26 @@
-import { createSignal, Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import {
   BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp,
   BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost,
 } from "../openApiClients/generated/berealWrapper";
 import BerealFeedImage from "./berealFeedImage";
 import RealmojiSquished from "./realmojiSquished";
-import css from "./feedCard.module.css";
 import {
   Avatar,
   Box,
   Button,
+  Flex,
   HStack,
   Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
+  useColorMode,
   VStack,
 } from "@hope-ui/solid";
 
@@ -57,62 +64,79 @@ const FeedCard = ({
 
   return (
     <Box
-      bg="$primary8"
-      maxW="$sm"
-      borderColor="$neutral6"
+      bg="$neutral3"
+      maxW="$md"
+      borderColor="$neutral4"
       borderWidth="1px"
       borderRadius="$lg"
     >
-      <>
-        <HStack direction="row" alignItems="center" spacing={1}>
-          <Avatar
-            src={item.user?.profilePicture?.url}
-            name={item.user?.username}
-          />
-          <VStack spacing={-1}>
-            <Text color="text.primary">{item.user?.username}</Text>
-            <Show when={item.location}>
-              <Text color="text.secondary">
-                {item.location?._latitude} {item.location?._longitude}
-              </Text>
-            </Show>
-          </VStack>
-          <VStack
-            // override stack styles and push it to end
-            marginLeft="auto"
-            alignSelf="center"
-          >
-            <Show when={postedAt}>
-              <Text fontSize="0.7em" color="text.secondary">
-                {postedAt}
-              </Text>
-            </Show>
-          </VStack>
-        </HStack>
-        <div class={css.feedPostImageWrapper}>
-          <BerealFeedImage
-            primaryUrl={item.photoURL!}
-            secondaryUrl={item.secondaryPhotoURL!}
-          />
-          <RealmojiSquished realmojis={item.realMojis} />
-        </div>
+      <HStack margin="$2" direction="row" spacing="$1">
+        <Avatar
+          src={item.user?.profilePicture?.url}
+          name={item.user?.fullname ?? item.user?.username}
+        />
+        <VStack alignItems="start">
+          <Text>{item.user?.username}</Text>
+          <Show when={item.location}>
+            <Text color="$neutral11">
+              {item.location?._latitude} {item.location?._longitude}
+            </Text>
+          </Show>
+        </VStack>
+        <VStack marginLeft="auto" alignSelf="center">
+          <Show when={postedAt}>
+            <Text size="sm" color="$neutral11">
+              {postedAt}
+            </Text>
+          </Show>
+        </VStack>
+      </HStack>
+      <Box position="relative">
+        <BerealFeedImage
+          primaryUrl={item.photoURL!}
+          secondaryUrl={item.secondaryPhotoURL!}
+        />
+        <RealmojiSquished realmojis={item.realMojis} />
+      </Box>
+      <VStack margin="$2" alignItems="start">
         <Show when={item.caption}>
-          <Text color="text.secondary">{item.caption}</Text>
+          <Text>{item.caption}</Text>
         </Show>
-      </>
-      <>
         <Show when={item.comment?.length}>
           <Modal
             opened={isCommentsOpen()}
             onClose={() => setIsCommentsOpen((p) => !p)}
           >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalCloseButton />
+              <ModalHeader>Comments</ModalHeader>
+              <ModalBody>
+                <For each={item.comment}>
+                  {(comment) => (
+                    <Stack gap={8}>
+                      <Avatar
+                        src={comment.user?.profilePicture?.url}
+                        name={comment.user?.fullname ?? comment.user?.username}
+                      ></Avatar>
+                      <Text>{comment.text}</Text>
+                    </Stack>
+                  )}
+                </For>
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={() => setIsCommentsOpen((p) => !p)}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
             <div>test</div>
           </Modal>
-          <Button onClick={() => setIsCommentsOpen((p) => !p)} size="small">
-            Comments {item.comment?.length}
+          <Button onClick={() => setIsCommentsOpen((p) => !p)} variant="ghost">
+            View all {item.comment?.length} comments
           </Button>
         </Show>
-      </>
+      </VStack>
     </Box>
   );
 };
