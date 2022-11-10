@@ -1,12 +1,19 @@
-import { Container } from "@hope-ui/solid";
+import { Box, Flex } from "@hope-ui/solid";
 import { ParentProps } from "solid-js";
-import styles from "./loginPageLayout.module.css";
 
 const LoginPageLayout = (props: ParentProps) => {
   return (
-    <div class={styles["login-page-grid"]}>
-      <Container class={styles["login-area"]}>{props.children}</Container>
-    </div>
+    <Flex
+      direction="column"
+      width="100%"
+      height="100%"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Box maxW="$lg" backgroundColor="$neutral2" borderRadius='$md'>
+        {props.children}
+      </Box>
+    </Flex>
   );
 };
 export default LoginPageLayout;

@@ -3,7 +3,7 @@ import { useUserToken } from "../userTokenProvider";
 import { useLoginVerifyPhoneNumberMutation } from "../../openApiClients/berealWrapperQueries";
 import { useNavigate, useParams } from "@solidjs/router";
 import LoginPageLayout from "./loginPageLayout";
-import { Button, Input, Stack, Text } from "@hope-ui/solid";
+import { Button, Heading, Input, Stack, Text, VStack } from "@hope-ui/solid";
 
 export const VerifyCodePage = () => {
   const { sessionInfo } = useParams();
@@ -40,10 +40,10 @@ export const VerifyCodePage = () => {
 
   return (
     <LoginPageLayout>
-      <Stack spacing={3} margin="1rem">
-        <Text as="h3" alignSelf="center">
+      <VStack spacing={3} margin="1rem">
+        <Heading>
           Verify code
-        </Text>
+        </Heading>
         <Input
           placeholder="Enter the verification code you received in SMS"
           type="text"
@@ -56,14 +56,14 @@ export const VerifyCodePage = () => {
           Verify code
         </Button>
         <Show when={verifyPhoneNumberMutation.isError}>
-          <Text color="text.secondary">
+          <Text>
             {JSON.stringify(
               // @ts-expect-error
               verifyPhoneNumberMutation.error.error.error.message
             )}
           </Text>
         </Show>
-      </Stack>
+      </VStack>
     </LoginPageLayout>
   );
 };
