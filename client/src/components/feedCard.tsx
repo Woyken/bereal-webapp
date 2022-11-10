@@ -1,5 +1,6 @@
-import { createSignal, For, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import {
+  BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseLocation,
   BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp,
   BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost,
 } from "../openApiClients/generated/berealWrapper";
@@ -9,7 +10,6 @@ import {
   Avatar,
   Box,
   Button,
-  Flex,
   HStack,
   Modal,
   ModalBody,
@@ -20,9 +20,9 @@ import {
   ModalOverlay,
   Stack,
   Text,
-  useColorMode,
   VStack,
 } from "@hope-ui/solid";
+import { useReverseGeocodeQuery } from "../openApiClients/arcgisQueries";
 
 const isToday = (someDate: Date) => {
   const today = new Date();
@@ -50,6 +50,33 @@ const getTimePostedText = (
   return "Yesterday at " + timeStr;
 };
 
+const useLocationText = (
+  location?: BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseLocation
+) => {
+  const [reversedGeolocationText, setReversedGeolocationText] =
+    createSignal<string>();
+
+  if (location?._longitude && location._latitude) {
+    const reverseGeolocationQuery = useReverseGeocodeQuery(
+      location._longitude,
+      location._latitude
+    );
+    createEffect(() => {
+      if (!reverseGeolocationQuery.data) return;
+      const address = reverseGeolocationQuery.data.address;
+      setReversedGeolocationText(`${address.City}, ${address.CntryName}`);
+    });
+  }
+
+  const locationText = createMemo(
+    () =>
+      reversedGeolocationText() ??
+      (location ? `${location._latitude},${location._longitude}` : undefined)
+  );
+
+  return locationText;
+};
+
 const FeedCard = ({
   item,
 }: {
@@ -59,6 +86,8 @@ const FeedCard = ({
     item.creationDate ?? { _nanoseconds: 0, _seconds: 0 },
     item.lateInSeconds ?? 0
   );
+
+  const locationText = useLocationText(item.location);
 
   const [isCommentsOpen, setIsCommentsOpen] = createSignal(false);
 
@@ -77,10 +106,8 @@ const FeedCard = ({
         />
         <VStack alignItems="start">
           <Text>{item.user?.username}</Text>
-          <Show when={item.location}>
-            <Text color="$neutral11">
-              {item.location?._latitude} {item.location?._longitude}
-            </Text>
+          <Show when={locationText()}>
+            <Text color="$neutral11">{locationText()}</Text>
           </Show>
         </VStack>
         <VStack marginLeft="auto" alignSelf="center">
