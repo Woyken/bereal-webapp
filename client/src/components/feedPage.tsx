@@ -12,7 +12,7 @@ const MainView = (props: PropsWithClass) => {
 
   return (
     <Box class={props.class}>
-      <VStack spacing={2} alignItems="center" overflow="scroll">
+      <VStack gap='$2' alignItems="center" overflow="scroll">
         <Suspense fallback={<CircularProgress />}>
           <For each={friendsPosts.data}>
             {(item) => <FeedCard item={item} />}
