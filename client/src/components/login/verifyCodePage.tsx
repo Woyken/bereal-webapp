@@ -1,12 +1,9 @@
 import { createEffect, createSignal, Show } from "solid-js";
 import { useUserToken } from "../userTokenProvider";
 import { useLoginVerifyPhoneNumberMutation } from "../../openApiClients/berealWrapperQueries";
-import Button from "@suid/material/Button";
-import Stack from "@suid/material/Stack";
-import Typography from "@suid/material/Typography";
-import TextField from "@suid/material/TextField";
 import { useNavigate, useParams } from "@solidjs/router";
 import LoginPageLayout from "./loginPageLayout";
+import { Button, Heading, Input, Stack, Text, VStack } from "@hope-ui/solid";
 
 export const VerifyCodePage = () => {
   const { sessionInfo } = useParams();
@@ -43,13 +40,12 @@ export const VerifyCodePage = () => {
 
   return (
     <LoginPageLayout>
-      <Stack spacing={3} margin="1rem">
-        <Typography variant="h3" alignSelf="center">
+      <VStack spacing={3} margin="1rem">
+        <Heading>
           Verify code
-        </Typography>
-        <TextField
-          label="Verification code"
-          helperText="Enter the code you received in SMS"
+        </Heading>
+        <Input
+          placeholder="Enter the verification code you received in SMS"
           type="text"
           onInput={handleCodeInput}
         />
@@ -60,14 +56,14 @@ export const VerifyCodePage = () => {
           Verify code
         </Button>
         <Show when={verifyPhoneNumberMutation.isError}>
-          <Typography color="text.secondary">
+          <Text>
             {JSON.stringify(
               // @ts-expect-error
               verifyPhoneNumberMutation.error.error.error.message
             )}
-          </Typography>
+          </Text>
         </Show>
-      </Stack>
+      </VStack>
     </LoginPageLayout>
   );
 };

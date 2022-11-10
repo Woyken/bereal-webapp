@@ -1,11 +1,10 @@
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import basicSsl from "@vitejs/plugin-basic-ssl";
-import suidPlugin from "@suid/vite-plugin";
 
 export default defineConfig({
   base: './',
-  plugins: [basicSsl(), suidPlugin(), solidPlugin()],
+  plugins: [basicSsl(), solidPlugin()],
   server: {
     https: true,
     port: 3001,

@@ -1,18 +1,28 @@
-import Avatar from "@suid/material/Avatar";
-import Button from "@suid/material/Button";
-import Card from "@suid/material/Card";
-import CardActions from "@suid/material/CardActions";
-import CardContent from "@suid/material/CardContent";
-import Stack from "@suid/material/Stack";
-import Typography from "@suid/material/Typography";
-import { Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import {
   BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp,
   BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost,
 } from "../openApiClients/generated/berealWrapper";
 import BerealFeedImage from "./berealFeedImage";
 import RealmojiSquished from "./realmojiSquished";
-import css from "./feedCard.module.css";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  Text,
+  useColorMode,
+  VStack,
+} from "@hope-ui/solid";
 
 const isToday = (someDate: Date) => {
   const today = new Date();
@@ -50,53 +60,84 @@ const FeedCard = ({
     item.lateInSeconds ?? 0
   );
 
+  const [isCommentsOpen, setIsCommentsOpen] = createSignal(false);
+
   return (
-    <Card sx={{ maxWidth: 505 }}>
-      <CardContent>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar src={item.user?.profilePicture?.url}>
-            {item.user?.username?.replaceAll(".", "").substring(0, 5)}
-          </Avatar>
-          <Stack spacing={-1}>
-            <Typography color="text.primary" gutterBottom>
-              {item.user?.username}
-            </Typography>
-            <Show when={item.location}>
-              <Typography color="text.secondary">
-                {item.location?._latitude} {item.location?._longitude}
-              </Typography>
-            </Show>
-          </Stack>
-          <Stack
-            // override stack styles and push it to end
-            style={{ "margin-left": "auto" }}
-            direction="row"
-            alignSelf="center"
-          >
-            <Show when={postedAt}>
-              <Typography fontSize="0.7em" color="text.secondary">
-                {postedAt}
-              </Typography>
-            </Show>
-          </Stack>
-        </Stack>
-        <div class={css.feedPostImageWrapper}>
-          <BerealFeedImage
-            primaryUrl={item.photoURL!}
-            secondaryUrl={item.secondaryPhotoURL!}
-          />
-          <RealmojiSquished realmojis={item.realMojis} />
-        </div>
+    <Box
+      bg="$neutral3"
+      maxW="$md"
+      borderColor="$neutral4"
+      borderWidth="1px"
+      borderRadius="$lg"
+    >
+      <HStack margin="$2" direction="row" spacing="$1">
+        <Avatar
+          src={item.user?.profilePicture?.url}
+          name={item.user?.fullname ?? item.user?.username}
+        />
+        <VStack alignItems="start">
+          <Text>{item.user?.username}</Text>
+          <Show when={item.location}>
+            <Text color="$neutral11">
+              {item.location?._latitude} {item.location?._longitude}
+            </Text>
+          </Show>
+        </VStack>
+        <VStack marginLeft="auto" alignSelf="center">
+          <Show when={postedAt}>
+            <Text size="sm" color="$neutral11">
+              {postedAt}
+            </Text>
+          </Show>
+        </VStack>
+      </HStack>
+      <Box position="relative">
+        <BerealFeedImage
+          primaryUrl={item.photoURL!}
+          secondaryUrl={item.secondaryPhotoURL!}
+        />
+        <RealmojiSquished realmojis={item.realMojis} />
+      </Box>
+      <VStack margin="$2" alignItems="start">
         <Show when={item.caption}>
-          <Typography color="text.secondary">{item.caption}</Typography>
+          <Text>{item.caption}</Text>
         </Show>
-      </CardContent>
-      <CardActions>
         <Show when={item.comment?.length}>
-          <Button size="small">Comments {item.comment?.length}</Button>
+          <Modal
+            opened={isCommentsOpen()}
+            onClose={() => setIsCommentsOpen((p) => !p)}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalCloseButton />
+              <ModalHeader>Comments</ModalHeader>
+              <ModalBody>
+                <For each={item.comment}>
+                  {(comment) => (
+                    <Stack gap={8}>
+                      <Avatar
+                        src={comment.user?.profilePicture?.url}
+                        name={comment.user?.fullname ?? comment.user?.username}
+                      ></Avatar>
+                      <Text>{comment.text}</Text>
+                    </Stack>
+                  )}
+                </For>
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={() => setIsCommentsOpen((p) => !p)}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+            <div>test</div>
+          </Modal>
+          <Button onClick={() => setIsCommentsOpen((p) => !p)} variant="ghost">
+            View all {item.comment?.length} comments
+          </Button>
         </Show>
-      </CardActions>
-    </Card>
+      </VStack>
+    </Box>
   );
 };
 

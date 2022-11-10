@@ -1,7 +1,5 @@
+import { Button, HopeProvider } from "@hope-ui/solid";
 import { hashIntegration, Router } from "@solidjs/router";
-import { ThemeProvider } from "@suid/material";
-import Button from "@suid/material/Button";
-import CssBaseline from "@suid/material/CssBaseline";
 import {
   QueryCache,
   QueryClient,
@@ -11,10 +9,11 @@ import { ErrorBoundary, ParentProps } from "solid-js";
 import { UserTokenProvider } from "./components/userTokenProvider";
 import { BerealWrapperClientProvider } from "./openApiClients/berealWrapperClient";
 import { useAppTheme } from "./theme";
+// import { useAppTheme } from "./theme";
 import { persistWithIndexedDB } from "./utils/offlineQueryCache";
 
 const AppProviders = (props: ParentProps) => {
-  const theme = useAppTheme();
+  const hopeConfig = useAppTheme();
   const queryCache = new QueryCache();
   const client = new QueryClient({
     queryCache,
@@ -27,8 +26,8 @@ const AppProviders = (props: ParentProps) => {
     <>
       <BerealWrapperClientProvider>
         <QueryClientProvider client={client}>
-          <ThemeProvider theme={theme()}>
-            <CssBaseline />
+          <HopeProvider config={hopeConfig} enableCssReset>
+            {/* <CssBaseline /> */}
             <UserTokenProvider>
               <ErrorBoundary
                 fallback={(err, reset) => (
@@ -41,7 +40,7 @@ const AppProviders = (props: ParentProps) => {
                 <Router source={hashIntegration()}>{props.children}</Router>
               </ErrorBoundary>
             </UserTokenProvider>
-          </ThemeProvider>
+          </HopeProvider>
         </QueryClientProvider>
       </BerealWrapperClientProvider>
     </>
