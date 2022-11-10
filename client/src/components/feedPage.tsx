@@ -1,6 +1,4 @@
-import Box from "@suid/material/Box";
-import CircularProgress from "@suid/material/CircularProgress";
-import Stack from "@suid/material/Stack";
+import { Box, CircularProgress, Stack, VStack } from "@hope-ui/solid";
 import { For, Suspense } from "solid-js";
 import useRequireLogin from "../hooks/requireLogin";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
@@ -14,13 +12,13 @@ const MainView = (props: PropsWithClass) => {
 
   return (
     <Box class={props.class}>
-      <Stack spacing={2} alignItems="center" overflow="scroll">
+      <VStack spacing={2} alignItems="center" overflow="scroll">
         <Suspense fallback={<CircularProgress />}>
           <For each={friendsPosts.data}>
             {(item) => <FeedCard item={item} />}
           </For>
         </Suspense>
-      </Stack>
+      </VStack>
     </Box>
   );
 };

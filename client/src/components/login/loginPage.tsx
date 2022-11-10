@@ -1,11 +1,8 @@
 import { createEffect, createSignal, Show } from "solid-js";
 import { useLoginSendVerificationMutation } from "../../openApiClients/berealWrapperQueries";
-import Button from "@suid/material/Button";
-import Stack from "@suid/material/Stack";
-import Typography from "@suid/material/Typography";
-import TextField from "@suid/material/TextField";
 import { useNavigate } from "@solidjs/router";
 import LoginPageLayout from "./loginPageLayout";
+import { Button, Input, Stack, Text } from "@hope-ui/solid";
 
 const LoginPage = () => {
   const [inputPhoneNumber, setInputPhoneNumber] = createSignal("");
@@ -35,12 +32,11 @@ const LoginPage = () => {
   return (
     <LoginPageLayout>
       <Stack spacing={3} margin="1rem">
-        <Typography variant="h3" alignSelf="center">
+        <Text as="h3" alignSelf="center">
           Login
-        </Typography>
-        <TextField
-          label="Phone number"
-          helperText="Format: +37012312312, you'll receive SMS with verification code"
+        </Text>
+        <Input
+          placeholder="Phone number, Format: +37012312312, you'll receive SMS with verification code"
           type="tel"
           onInput={handlePhoneInput}
         />
@@ -52,12 +48,12 @@ const LoginPage = () => {
         </Button>
 
         <Show when={verificationMutation.isError}>
-          <Typography color="text.secondary">
+          <Text color="text.secondary">
             {
               // @ts-expect-error
               verificationMutation.error.error.error.message
             }
-          </Typography>
+          </Text>
         </Show>
       </Stack>
     </LoginPageLayout>

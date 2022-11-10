@@ -1,4 +1,4 @@
-import Avatar from "@suid/material/Avatar";
+import { Avatar } from "@hope-ui/solid";
 import { For, Show } from "solid-js";
 import { BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "../openApiClients/generated/berealWrapper";
 import css from "./realmojiSquished.module.css";

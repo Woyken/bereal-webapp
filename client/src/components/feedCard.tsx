@@ -1,11 +1,4 @@
-import Avatar from "@suid/material/Avatar";
-import Button from "@suid/material/Button";
-import Card from "@suid/material/Card";
-import CardActions from "@suid/material/CardActions";
-import CardContent from "@suid/material/CardContent";
-import Stack from "@suid/material/Stack";
-import Typography from "@suid/material/Typography";
-import { Show } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import {
   BerealAppRepositoriesPostDatasourcesRemoteModelFirebaseTimestamp,
   BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost,
@@ -13,6 +6,16 @@ import {
 import BerealFeedImage from "./berealFeedImage";
 import RealmojiSquished from "./realmojiSquished";
 import css from "./feedCard.module.css";
+import {
+  Avatar,
+  Box,
+  Button,
+  HStack,
+  Modal,
+  Stack,
+  Text,
+  VStack,
+} from "@hope-ui/solid";
 
 const isToday = (someDate: Date) => {
   const today = new Date();
@@ -50,36 +53,42 @@ const FeedCard = ({
     item.lateInSeconds ?? 0
   );
 
+  const [isCommentsOpen, setIsCommentsOpen] = createSignal(false);
+
   return (
-    <Card sx={{ maxWidth: 505 }}>
-      <CardContent>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar src={item.user?.profilePicture?.url}>
-            {item.user?.username?.replaceAll(".", "").substring(0, 5)}
-          </Avatar>
-          <Stack spacing={-1}>
-            <Typography color="text.primary" gutterBottom>
-              {item.user?.username}
-            </Typography>
+    <Box
+      bg="$primary8"
+      maxW="$sm"
+      borderColor="$neutral6"
+      borderWidth="1px"
+      borderRadius="$lg"
+    >
+      <>
+        <HStack direction="row" alignItems="center" spacing={1}>
+          <Avatar
+            src={item.user?.profilePicture?.url}
+            name={item.user?.username}
+          />
+          <VStack spacing={-1}>
+            <Text color="text.primary">{item.user?.username}</Text>
             <Show when={item.location}>
-              <Typography color="text.secondary">
+              <Text color="text.secondary">
                 {item.location?._latitude} {item.location?._longitude}
-              </Typography>
+              </Text>
             </Show>
-          </Stack>
-          <Stack
+          </VStack>
+          <VStack
             // override stack styles and push it to end
-            style={{ "margin-left": "auto" }}
-            direction="row"
+            marginLeft="auto"
             alignSelf="center"
           >
             <Show when={postedAt}>
-              <Typography fontSize="0.7em" color="text.secondary">
+              <Text fontSize="0.7em" color="text.secondary">
                 {postedAt}
-              </Typography>
+              </Text>
             </Show>
-          </Stack>
-        </Stack>
+          </VStack>
+        </HStack>
         <div class={css.feedPostImageWrapper}>
           <BerealFeedImage
             primaryUrl={item.photoURL!}
@@ -88,15 +97,23 @@ const FeedCard = ({
           <RealmojiSquished realmojis={item.realMojis} />
         </div>
         <Show when={item.caption}>
-          <Typography color="text.secondary">{item.caption}</Typography>
+          <Text color="text.secondary">{item.caption}</Text>
         </Show>
-      </CardContent>
-      <CardActions>
+      </>
+      <>
         <Show when={item.comment?.length}>
-          <Button size="small">Comments {item.comment?.length}</Button>
+          <Modal
+            opened={isCommentsOpen()}
+            onClose={() => setIsCommentsOpen((p) => !p)}
+          >
+            <div>test</div>
+          </Modal>
+          <Button onClick={() => setIsCommentsOpen((p) => !p)} size="small">
+            Comments {item.comment?.length}
+          </Button>
         </Show>
-      </CardActions>
-    </Card>
+      </>
+    </Box>
   );
 };
 

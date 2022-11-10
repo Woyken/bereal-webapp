@@ -1,22 +1,13 @@
-import AppBar from "@suid/material/AppBar";
-import Toolbar from "@suid/material/Toolbar";
-import Typography from "@suid/material/Typography";
+import { Box, Text } from "@hope-ui/solid";
 import { PropsWithClass } from "../utils/propsWithClass";
 
 const Header = (props: PropsWithClass) => {
   return (
-    <AppBar class={props.class} position="static">
-      <Toolbar>
-        <Typography
-          variant="h5"
-          component="div"
-          flexGrow={1}
-          textAlign="center"
-        >
-          BeReal - Web
-        </Typography>
-      </Toolbar>
-    </AppBar>
+    <Box class={props.class} position="static">
+      <Text as="h5" flexGrow={1} textAlign="center">
+        BeReal - Web
+      </Text>
+    </Box>
   );
 };
 
