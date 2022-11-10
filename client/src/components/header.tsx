@@ -1,12 +1,12 @@
-import { Box, Text } from "@hope-ui/solid";
+import { Box, Heading } from "@hope-ui/solid";
 import { PropsWithClass } from "../utils/propsWithClass";
 
 const Header = (props: PropsWithClass) => {
   return (
-    <Box class={props.class} position="static">
-      <Text as="h5" flexGrow={1} textAlign="center">
+    <Box class={props.class} position="sticky">
+      <Heading size="3xl" flexGrow={1} textAlign="center">
         BeReal - Web
-      </Text>
+      </Heading>
     </Box>
   );
 };
