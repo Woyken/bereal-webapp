@@ -1,5 +1,20 @@
-import { Avatar, AvatarExcess, Box } from "@hope-ui/solid";
-import { For, Show } from "solid-js";
+import {
+  Avatar,
+  AvatarExcess,
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  Image,
+  Flex,
+} from "@hope-ui/solid";
+import { createSignal, For, Show } from "solid-js";
 import { BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "../openApiClients/generated/berealWrapper";
 
 const RealmojiSquished = ({
@@ -13,6 +28,9 @@ const RealmojiSquished = ({
   const extraText =
     allLength > limitedLength ? `+${allLength - limitedLength}` : undefined;
 
+  const [activeRealmoji, setActiveRealmoji] = createSignal(realmojis?.[0]);
+
+  const [isModalOpen, setIsModalOpen] = createSignal(false);
   return (
     <Box
       position="absolute"
@@ -21,7 +39,39 @@ const RealmojiSquished = ({
       display="flex"
       flexDirection="row-reverse"
       justifyContent="start"
+      onClick={() => setIsModalOpen((p) => !p)}
     >
+      <Modal opened={isModalOpen()} onClose={() => setIsModalOpen((p) => !p)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalHeader>Reactions</ModalHeader>
+          <ModalBody>
+            <Flex direction="column">
+              <Image src={activeRealmoji()?.uri} />
+              <Text>
+                {activeRealmoji()?.emoji} {activeRealmoji()?.userName}
+              </Text>
+            </Flex>
+            <Flex>
+              <For each={realmojis}>
+                {(realmoji) => (
+                  <>
+                    <Box gap={8} onClick={() => setActiveRealmoji(realmoji)}>
+                      <Avatar src={realmoji.uri} name={realmoji.emoji} />
+                      <Text>{realmoji.emoji}</Text>
+                    </Box>
+                  </>
+                )}
+              </For>
+            </Flex>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={() => setIsModalOpen((p) => !p)}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+        <div>test</div>
+      </Modal>
       <Show when={extraText}>
         <AvatarExcess marginLeft="-$2" withBorder>
           {extraText}
