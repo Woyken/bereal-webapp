@@ -2,16 +2,15 @@ import { Box, CircularProgress, Stack, VStack } from "@hope-ui/solid";
 import { For, Suspense } from "solid-js";
 import useRequireLogin from "../hooks/requireLogin";
 import { useFriendsPostsQuery } from "../openApiClients/berealWrapperQueries";
-import { PropsWithClass } from "../utils/propsWithClass";
 import FeedCard from "./feedCard";
 
-const MainView = (props: PropsWithClass) => {
+const FeedPage = () => {
   useRequireLogin();
 
   const friendsPosts = useFriendsPostsQuery();
 
   return (
-    <Box class={props.class}>
+    <Box>
       <VStack gap='$2' alignItems="center" overflow="scroll">
         <Suspense fallback={<CircularProgress />}>
           <For each={friendsPosts.data}>
@@ -23,4 +22,4 @@ const MainView = (props: PropsWithClass) => {
   );
 };
 
-export default MainView;
+export default FeedPage;

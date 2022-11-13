@@ -1,9 +1,15 @@
 import { Box, Heading } from "@hope-ui/solid";
-import { PropsWithClass } from "../utils/propsWithClass";
+import GithubCorner from "./githubCorner";
 
-const Header = (props: PropsWithClass) => {
+const Header = () => {
   return (
-    <Box class={props.class} position="sticky">
+    <Box
+      position="sticky"
+      display="flex"
+      alignItems="center"
+      gridArea="header"
+      alignSelf="start"
+    >
       <Heading size="3xl" flexGrow={1} textAlign="center">
         BeReal - Web
       </Heading>
