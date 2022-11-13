@@ -9,10 +9,12 @@ const Header = () => {
       alignItems="center"
       gridArea="header"
       alignSelf="start"
+      backgroundColor="$neutral2"
     >
       <Heading size="3xl" flexGrow={1} textAlign="center">
         BeReal - Web
       </Heading>
+      <GithubCorner />
     </Box>
   );
 };
