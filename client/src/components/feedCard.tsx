@@ -23,6 +23,7 @@ import {
   VStack,
 } from "@hope-ui/solid";
 import { useReverseGeocodeQuery } from "../openApiClients/arcgisQueries";
+import FloatingRealmoji from "./floatingRealmoji";
 
 const isToday = (someDate: Date) => {
   const today = new Date();
@@ -124,11 +125,14 @@ const FeedCard = ({
           secondaryUrl={item.secondaryPhotoURL!}
         />
         <RealmojiSquished realmojis={item.realMojis} />
+        <FloatingRealmoji postId={item.id!} />
       </Box>
       <VStack margin="$2" alignItems="start">
+        {/* Caption */}
         <Show when={item.caption}>
           <Text>{item.caption}</Text>
         </Show>
+        {/* Comments */}
         <Show when={item.comment?.length}>
           <Modal
             opened={isCommentsOpen()}
@@ -157,7 +161,6 @@ const FeedCard = ({
                 </Button>
               </ModalFooter>
             </ModalContent>
-            <div>test</div>
           </Modal>
           <Button onClick={() => setIsCommentsOpen((p) => !p)} variant="ghost">
             View all {item.comment?.length} comments
