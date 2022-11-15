@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [basicSsl(), solidPlugin()],
   server: {
     https: true,
+    host: true,
     port: 3001,
   },
   build: {

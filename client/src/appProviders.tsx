@@ -32,7 +32,7 @@ const AppProviders = (props: ParentProps) => {
               <ErrorBoundary
                 fallback={(err, reset) => (
                   <>
-                    Website crashed, {JSON.stringify(err)}
+                    Website crashed, {err}
                     <Button onclick={reset}>Reset</Button>
                   </>
                 )}

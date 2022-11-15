@@ -16,30 +16,22 @@ const app = express();
 const options =
   nodeEnv === "development"
     ? {
-        key: fs.readFileSync(__dirname + "/ssl/key.pem"),
-        cert: fs.readFileSync(__dirname + "/ssl/cert.pem"),
+        key: fs.readFileSync(__dirname + "/ssl/localhost+3-key.pem"),
+        cert: fs.readFileSync(__dirname + "/ssl/localhost+3.pem"),
+        requestCert: false,
+        rejectUnauthorized: false
       }
     : undefined;
 const server =
   nodeEnv === "development" ? createServer(options!, app) : createServer(app);
-const port = process.env.PORT || 3000;
+const port = parseInt(process.env.PORT!) || 3000;
 
-var allowedOrigins = ["https://localhost:3001", "https://woyken.github.io"];
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, false);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        var msg =
-          "The CORS policy for this site does not " +
-          "allow access from the specified Origin.";
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-  })
-);
+var allowedOrigins = [
+  "https://192.168.0.144:3001",
+  "https://localhost:3001",
+  "https://woyken.github.io",
+];
+app.use(cors());
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -70,7 +62,7 @@ app.use(function handleErrors(
   next(err);
 });
 
-server.listen(port, () => {
+server.listen(port, "192.168.0.144", () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
 
