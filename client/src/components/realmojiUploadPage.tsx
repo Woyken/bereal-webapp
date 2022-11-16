@@ -9,6 +9,7 @@ import {
   Suspense,
 } from "solid-js";
 import useRequireLogin from "../hooks/requireLogin";
+import { useCaptureBackAndFrontImages } from "../hooks/useCaptureBackAndFrontImages";
 import { useMediaDevicesGetUserMedia } from "../hooks/useMediaDevicesGetUserMedia";
 import { usePersonMeQuery } from "../openApiClients/berealWrapperQueries";
 
@@ -19,38 +20,40 @@ const RealmojiUploadPage = () => {
 
   const [activeEmoji, setActiveEmoji] = createSignal<string>();
 
-  const cameraCapture = useMediaDevicesGetUserMedia();
+  // const cameraCapture = useMediaDevicesGetUserMedia();
 
   // Start back camera preview right the way
-  const [currentCameraMode, setCurrentCameraMode] = createSignal<
-    "environment" | "user"
-  >("environment");
+  // const [currentCameraMode, setCurrentCameraMode] = createSignal<
+  //   "environment" | "user"
+  // >("environment");
 
-  createEffect(() => {
-    const mode = currentCameraMode();
-    cameraCapture.startCapture(mode);
-  });
+  // createEffect(() => {
+  //   const mode = currentCameraMode();
+  //   cameraCapture.startCapture(mode);
+  // });
 
   const [videoEl, setVideoEl] = createSignal<HTMLVideoElement>();
   const [canvasEl, setCanvasEl] = createSignal<HTMLCanvasElement>();
-  const canvasContext2d = createMemo(() => canvasEl()?.getContext("2d"));
+  const captureBoth = useCaptureBackAndFrontImages(videoEl, canvasEl);
+  // const canvasContext2d = createMemo(() => canvasEl()?.getContext("2d"));
 
-  createEffect(() => {
-    const videoElement = videoEl();
-    const cameraStream = cameraCapture.stream();
-    if (!videoElement || !cameraStream) return;
-    videoElement.srcObject = cameraStream;
-    onCleanup(() => {
-      videoElement.srcObject = null;
-    });
-  });
+  // createEffect(() => {
+  //   const videoElement = videoEl();
+  //   const cameraStream = cameraCapture.stream();
+  //   if (!videoElement || !cameraStream) return;
+  //   videoElement.srcObject = cameraStream;
+  //   onCleanup(() => {
+  //     videoElement.srcObject = null;
+  //   });
+  // });
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Show when={cameraCapture.error()}>
-        <Heading>{` ${cameraCapture.error()}`}</Heading>
+      <Show when={captureBoth.error()}>
+        <Heading>{` ${captureBoth.error()}`}</Heading>
       </Show>
-      <Show when={cameraCapture.isRequesting()}>
+      <Show when={captureBoth.isRequesting()}>
+        <div>Please accept request</div>
         <Spinner />
       </Show>
       {/* <Show when={!activeEmoji()}>
@@ -70,7 +73,6 @@ const RealmojiUploadPage = () => {
         </div>
       </Show> */}
       <div>
-        {`${cameraCapture.error()} ${cameraCapture.isRequesting()} ${cameraCapture.stream()}`}
         <video
           autoplay={true}
           style={{ background: "whitesmoke" }}
@@ -78,16 +80,39 @@ const RealmojiUploadPage = () => {
         />
         <Button
           onClick={() => {
-            canvasContext2d()?.drawImage(videoEl()!, 0, 0, 1500, 2000);
-            // cameraCapture.startCapture("user");
-            setCurrentCameraMode((p) =>
-              p === "user" ? "environment" : "user"
-            );
+            captureBoth.capture();
+            // canvasContext2d()?.drawImage(videoEl()!, 0, 0, 1500, 2000);
+            // // cameraCapture.startCapture("user");
+            // setCurrentCameraMode((p) =>
+            //   p === "user" ? "environment" : "user"
+            // );
           }}
         >
           Capture
         </Button>
-        <canvas width={1500} height={2000} ref={setCanvasEl} />
+        <Button
+          onClick={() => {
+            captureBoth.flip();
+            // canvasContext2d()?.drawImage(videoEl()!, 0, 0, 1500, 2000);
+            // // cameraCapture.startCapture("user");
+            // setCurrentCameraMode((p) =>
+            //   p === "user" ? "environment" : "user"
+            // );
+          }}
+        >
+          Flip
+        </Button>
+        <div>|||||||||front||||||||||</div>
+        <img src={captureBoth.frontPictureUrl()} />
+        <div>||||||||||back|||||||||</div>
+        <img src={captureBoth.backPictureUrl()} />
+        <div>|||||||||||||||||||</div>
+        <canvas
+          style={{ display: "none" }}
+          width={1500}
+          height={2000}
+          ref={setCanvasEl}
+        />
       </div>
     </Suspense>
   );

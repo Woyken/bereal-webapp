@@ -42,6 +42,10 @@ export const useMediaDevicesGetUserMedia = <Err = unknown>() => {
           audio: false,
         })
         .catch(async (err) => {
+          if (err instanceof DOMException) {
+            err.name
+            alert('dom error')
+          }
           if (err.name === "OverconstrainedError") {
             // alert(`err ${err}`);
           }
