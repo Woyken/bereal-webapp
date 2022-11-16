@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onCleanup } from "solid-js";
+import { createEffect, createSignal, onCleanup, untrack } from "solid-js";
 
 // const useMediaDevices = () => {
 //   const [mediaDevices, setMediaDevices] = createSignal<MediaDevices[]>();
@@ -25,57 +25,57 @@ export const useMediaDevicesGetUserMedia = <Err = unknown>() => {
   const [isRequesting, setIsRequesting] = createSignal(false);
 
   createEffect(() => {
-    console.log("stream changed effect");
     if (!stream()) return;
     onCleanup(stopAllTracks);
   });
 
   const startCapture = (which: "user" | "environment") => {
-    stopCapture();
-    setStream(undefined);
-    setError(undefined);
-    setIsRequesting(true);
+    untrack(() => {
+      stopCapture();
+      setStream(undefined);
+      setError(undefined);
+      setIsRequesting(true);
 
-    navigator.mediaDevices
-      .getUserMedia({
-        video: { facingMode: { exact: which } },
-        audio: false,
-      })
-      .catch(async (err) => {
-        if (err.name === "OverconstrainedError") {
-          // alert(`err ${err}`);
-        }
-        console.log(
-          `overconstrained error, user probably doesn't have "${which}" camera`,
-          err
-        );
-        // For now let's fallback to not so strict mode
-        return navigator.mediaDevices.getUserMedia({
-          video: { facingMode: which, width: 1500, height: 2000 },
+      navigator.mediaDevices
+        .getUserMedia({
+          video: { facingMode: { exact: which } },
           audio: false,
-        });
-      })
-      .then((s) => setStream(s))
-      .catch(setError)
-      .finally(() => setIsRequesting(false));
+        })
+        .catch(async (err) => {
+          if (err.name === "OverconstrainedError") {
+            // alert(`err ${err}`);
+          }
+          console.log(
+            `overconstrained error, user probably doesn't have "${which}" camera`,
+            err
+          );
+          // For now let's fallback to not so strict mode
+          return navigator.mediaDevices.getUserMedia({
+            video: { facingMode: which, width: 1500, height: 2000 },
+            audio: false,
+          });
+        })
+        .then((s) => setStream(s))
+        .catch(setError)
+        .finally(() => setIsRequesting(false));
+    });
   };
 
   const stopAllTracks = () => {
-    console.log("stop all tracks");
     stream()
       ?.getTracks()
       .forEach((s) => s.stop());
   };
 
   const stopCapture = () => {
-    console.log("stop capture");
-    stopAllTracks();
-    setStream(undefined);
-    setError(undefined);
+    untrack(() => {
+      stopAllTracks();
+      setStream(undefined);
+      setError(undefined);
+    });
   };
 
   onCleanup(() => {
-    console.log("on cleanup effect");
     stopCapture();
   });
 

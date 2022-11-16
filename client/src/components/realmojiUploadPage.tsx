@@ -28,11 +28,7 @@ const RealmojiUploadPage = () => {
 
   createEffect(() => {
     const mode = currentCameraMode();
-    console.log("start capture", mode);
     cameraCapture.startCapture(mode);
-    onCleanup(() => {
-      console.log('cleanup start capture')
-    })
   });
 
   const [videoEl, setVideoEl] = createSignal<HTMLVideoElement>();
@@ -76,7 +72,6 @@ const RealmojiUploadPage = () => {
       <div>
         {`${cameraCapture.error()} ${cameraCapture.isRequesting()} ${cameraCapture.stream()}`}
         <video
-          onClick={() => alert("test")}
           autoplay={true}
           style={{ background: "whitesmoke" }}
           ref={setVideoEl}
