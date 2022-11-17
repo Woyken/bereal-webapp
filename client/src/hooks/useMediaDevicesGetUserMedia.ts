@@ -43,16 +43,17 @@ export const useMediaDevicesGetUserMedia = <Err = unknown>() => {
         })
         .catch(async (err) => {
           if (err instanceof DOMException) {
-            err.name
-            alert('dom error')
+            if (err.name === "NotAllowedError") {
+              // TODO user denied camera permission
+              throw err;
+            }
           }
           if (err.name === "OverconstrainedError") {
-            // alert(`err ${err}`);
+            console.log(
+              `overconstrained error, user probably doesn't have "${which}" camera`,
+              err
+            );
           }
-          console.log(
-            `overconstrained error, user probably doesn't have "${which}" camera`,
-            err
-          );
           // For now let's fallback to not so strict mode
           return navigator.mediaDevices.getUserMedia({
             video: { facingMode: which, width: 1500, height: 2000 },
