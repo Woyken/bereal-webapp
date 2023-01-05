@@ -108,7 +108,20 @@ const FeedCard = ({
         <VStack alignItems="start">
           <Text>{item.user?.username}</Text>
           <Show when={locationText()}>
-            <Text color="$neutral11">{locationText()}</Text>
+            <Text
+              color="$neutral11"
+              onclick={() => {
+                const locationStr = encodeURIComponent(
+                  `${item.location?._latitude},${item.location?._longitude}`
+                );
+                window.open(
+                  `https://www.google.com/maps/search/?api=1&query=${locationStr}`,
+                  "_blank"
+                );
+              }}
+            >
+              {locationText()}
+            </Text>
           </Show>
         </VStack>
         <VStack marginLeft="auto" alignSelf="center">
