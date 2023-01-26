@@ -9,9 +9,9 @@ import {
   Setter,
   useContext,
 } from "solid-js";
-import {
-  useLoginRefreshTokenMutation,
-} from "../openApiClients/berealWrapperQueries";
+import { useReactiveMutationProps } from "../hooks/reactiveQuery";
+import { useLoadingToast, useSuccessToast } from "../hooks/toasts";
+import { useLoginRefreshTokenMutation } from "../openApiClients/berealWrapperQueries";
 import parseJwt from "../utils/jwt";
 
 const ctx = createContext<{
@@ -96,6 +96,11 @@ const RefreshTokenAutomatically = () => {
   };
 
   const refreshTokenMutation = useLoginRefreshTokenMutation();
+  const { isSuccess, isLoading, isError } =
+    useReactiveMutationProps(refreshTokenMutation);
+  useLoadingToast(isLoading, "Refreshing token...");
+  useSuccessToast(isSuccess, "Success refreshing token");
+  useSuccessToast(isError, "Failed to refresh token");
 
   createEffect(() => {
     if (!refreshTokenMutation.data) return;

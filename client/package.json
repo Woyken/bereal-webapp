@@ -26,6 +26,7 @@
     "@tanstack/solid-query": "^4.13.0",
     "idb-keyval": "^6.2.0",
     "solid-js": "^1.5.1",
+    "solid-toast": "^0.4.0",
     "solid-transition-group": "^0.0.10"
   }
 }

@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from "@solidjs/router";
 import LoginPage from "./components/login/loginPage";
 import VerifyCodePage from "./components/login/verifyCodePage";
 import { Box } from "@hope-ui/solid";
+import { Toaster } from "solid-toast";
 
 const RootPage = () => {
   return <Navigate href="/feed" />;
@@ -36,6 +37,7 @@ const App = () => {
         <Header />
         <Main />
       </Box>
+      <Toaster />
     </AppProviders>
   );
 };

@@ -4,6 +4,8 @@ import { useLoginVerifyPhoneNumberMutation } from "../../openApiClients/berealWr
 import { useNavigate, useParams } from "@solidjs/router";
 import LoginPageLayout from "./loginPageLayout";
 import { Button, Heading, Input, Stack, Text, VStack } from "@hope-ui/solid";
+import { useReactiveMutationProps } from "../../hooks/reactiveQuery";
+import { useLoadingToast, useSuccessToast } from "../../hooks/toasts";
 
 export const VerifyCodePage = () => {
   const { sessionInfo } = useParams();
@@ -13,6 +15,12 @@ export const VerifyCodePage = () => {
   const userToken = useUserToken();
 
   const verifyPhoneNumberMutation = useLoginVerifyPhoneNumberMutation();
+  const { isSuccess, isLoading, isError } = useReactiveMutationProps(
+    verifyPhoneNumberMutation
+  );
+  useLoadingToast(isLoading, "Sending phone number verification...");
+  useSuccessToast(isSuccess, "Phone number verification success");
+  useSuccessToast(isError, "Failed to send phone number verification");
 
   createEffect(() => {
     if (!verifyPhoneNumberMutation.data) return;
@@ -41,9 +49,7 @@ export const VerifyCodePage = () => {
   return (
     <LoginPageLayout>
       <VStack spacing={3} margin="1rem">
-        <Heading>
-          Verify code
-        </Heading>
+        <Heading>Verify code</Heading>
         <Input
           placeholder="Enter the verification code you received in SMS"
           type="text"

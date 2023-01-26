@@ -14,12 +14,13 @@ import {
   Text,
 } from "@hope-ui/solid";
 import { createSignal, For } from "solid-js";
+import { useReactiveMutationProps } from "../hooks/reactiveQuery";
+import { useLoadingToast, useSuccessToast } from "../hooks/toasts";
 import {
   usePersonMeQuery,
   useRealmojiMutation,
 } from "../openApiClients/berealWrapperQueries";
 import AddReactionIcon from "./icons/addReactionIcon";
-
 
 const FloatingRealmoji = ({ postId }: { postId: string }) => {
   const [activeRealmojiReactionModal, setActiveRealmojiReactionModal] =
@@ -31,6 +32,11 @@ const FloatingRealmoji = ({ postId }: { postId: string }) => {
 
   const meQuery = usePersonMeQuery();
   const realmojiMutation = useRealmojiMutation();
+  const { isSuccess, isLoading, isError } =
+    useReactiveMutationProps(realmojiMutation);
+  useLoadingToast(isLoading, "Setting Realmoji...");
+  useSuccessToast(isSuccess, "Realmoji set");
+  useSuccessToast(isError, "Failed to set Realmoji");
 
   return (
     <Box
