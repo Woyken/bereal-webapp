@@ -1,4 +1,5 @@
 import { Box, Heading } from "@hope-ui/solid";
+import { A } from "@solidjs/router";
 import GithubCorner from "./githubCorner";
 
 const Header = () => {
@@ -14,7 +15,9 @@ const Header = () => {
       <Heading size="3xl" flexGrow={1} textAlign="center">
         BeReal - Web
       </Heading>
-      <GithubCorner />
+      <A href="https://github.com/Woyken/bereal-webapp">
+        <GithubCorner />
+      </A>
     </Box>
   );
 };

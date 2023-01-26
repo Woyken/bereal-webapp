@@ -1,6 +1,5 @@
 import {
   Box,
-  css,
   IconButton,
   Modal,
   Avatar,
@@ -21,17 +20,6 @@ import {
 } from "../openApiClients/berealWrapperQueries";
 import AddReactionIcon from "./icons/addReactionIcon";
 
-const addReactionStyles = css({
-  position: "absolute",
-  top: 0,
-  right: 0,
-  "z-index": 1,
-  transform: "scale(0.3)",
-  "transform-origin": "0 0",
-  margin: "3%",
-  width: "100%",
-  borderRadius: "$3xl",
-});
 
 const FloatingRealmoji = ({ postId }: { postId: string }) => {
   const [activeRealmojiReactionModal, setActiveRealmojiReactionModal] =

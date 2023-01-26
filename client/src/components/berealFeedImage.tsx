@@ -1,4 +1,5 @@
-import { Box, Image, css, classNames } from "@hope-ui/solid";
+import { Box, Image, classNames } from "@hope-ui/solid";
+import { css } from "@linaria/core";
 import { createMemo, createSignal } from "solid-js";
 
 type Props = {
@@ -6,38 +7,38 @@ type Props = {
   secondaryUrl: string;
 };
 
-const feedImageStyles = css({
-  "max-width": "40em",
-  "transition-property": "all",
-  "transition-duration": "0.2s",
-  "transition-delay": "0s",
-  "transition-timing-function": "cubic-bezier(.18,.89,.32,1.28)",
-});
+const feedImageStyles = css`
+  max-width: 40em;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-delay: 0s;
+  transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+`;
 
-const topImageStyles = css({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  "z-index": 1,
-  transform: "scale(0.3)",
-  "transform-origin": "0 0",
-  margin: "3%",
-  width: "100%",
-  borderRadius: "$3xl"
-});
+const topImageStyles = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transform: scale(0.3);
+  transform-origin: 0 0;
+  margin: 3%;
+  width: 100%;
+  border-radius: var(--hope-radii-3xl);
+`;
 
-const bottomImageStyles = css({
-  width: "100%",
-  borderRadius: "$lg",
-});
+const bottomImageStyles = css`
+  width: 100%;
+  border-radius: var(--hope-radii-lg);
+`;
 
 const BerealFeedImage = (props: Props) => {
   const [isPrimaryOnTop, setIsPrimaryOnTop] = createSignal(false);
   const primaryStyle = createMemo(() =>
-    isPrimaryOnTop() ? topImageStyles() : bottomImageStyles()
+    isPrimaryOnTop() ? topImageStyles : bottomImageStyles
   );
   const secondaryStyle = createMemo(() =>
-    isPrimaryOnTop() ? bottomImageStyles() : topImageStyles()
+    isPrimaryOnTop() ? bottomImageStyles : topImageStyles
   );
 
   const handlePrimaryClick = () => {
@@ -51,13 +52,13 @@ const BerealFeedImage = (props: Props) => {
     <Box position="relative">
       <Image
         borderRadius="$lg"
-        class={classNames(feedImageStyles(), primaryStyle())}
+        class={classNames(feedImageStyles, primaryStyle())}
         src={props.primaryUrl}
         loading="lazy"
         onclick={handlePrimaryClick}
       />
       <Image
-        class={classNames(feedImageStyles(), secondaryStyle())}
+        class={classNames(feedImageStyles, secondaryStyle())}
         src={props.secondaryUrl}
         loading="lazy"
         onclick={handleSecondaryClick}
