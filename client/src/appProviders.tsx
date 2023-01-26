@@ -30,12 +30,15 @@ const AppProviders = (props: ParentProps) => {
             {/* <CssBaseline /> */}
             <UserTokenProvider>
               <ErrorBoundary
-                fallback={(err, reset) => (
-                  <>
-                    Website crashed, {JSON.stringify(err)}
-                    <Button onclick={reset}>Reset</Button>
-                  </>
-                )}
+                fallback={(err, reset) => {
+                  console.log("website crashed: ", err);
+                  return (
+                    <>
+                      Website crashed, {JSON.stringify(err)}
+                      <Button onclick={reset}>Reset</Button>
+                    </>
+                  );
+                }}
               >
                 <Router source={hashIntegration()}>{props.children}</Router>
               </ErrorBoundary>
