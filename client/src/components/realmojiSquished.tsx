@@ -16,6 +16,7 @@ import {
 } from "@hope-ui/solid";
 import { createSignal, For, Show } from "solid-js";
 import { BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "../openApiClients/generated/berealWrapper";
+import { RealmojiWithIcon } from "./realmojiWithIcon";
 
 const RealmojiSquished = ({
   realmojis,
@@ -57,10 +58,16 @@ const RealmojiSquished = ({
               <For each={realmojis}>
                 {(realmoji) => (
                   <>
-                    <Box gap={8} onClick={() => setActiveRealmoji(realmoji)}>
-                      <Avatar src={realmoji.uri} name={realmoji.emoji} />
-                      <Text>{realmoji.emoji}</Text>
-                    </Box>
+                    <Flex
+                      direction="column"
+                      gap={8}
+                      onClick={() => setActiveRealmoji(realmoji)}
+                    >
+                      <RealmojiWithIcon
+                        emoji={realmoji.emoji}
+                        imageUrl={realmoji.uri}
+                      />
+                    </Flex>
                   </>
                 )}
               </For>
