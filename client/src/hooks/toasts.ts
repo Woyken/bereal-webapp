@@ -21,7 +21,7 @@ export const useErrorToast = (
   createEffect(() => {
     if (!condition()) return;
     const toastId = toast.error(message, options);
-    onCleanup(() => toast.remove(toastId));
+    onCleanup(() => toast.dismiss(toastId));
   });
 };
 
@@ -33,6 +33,6 @@ export const useLoadingToast = (
   createEffect(() => {
     if (!condition()) return;
     const toastId = toast.loading(message, options);
-    onCleanup(() => toast.remove(toastId));
+    onCleanup(() => toast.dismiss(toastId));
   });
 };
