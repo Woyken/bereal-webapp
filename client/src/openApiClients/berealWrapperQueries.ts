@@ -6,7 +6,7 @@ import {
 import { useUserToken } from "../components/userTokenProvider";
 import { throwInline } from "../utils/throwInline";
 import { useBerealWrapperClient } from "./berealWrapperClient";
-import { BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost } from "./generated/berealWrapper";
+import { BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost, BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "./generated/berealWrapper";
 
 const usePropsHeadersAuthorization = () => {
   const { token } = useUserToken();
@@ -114,31 +114,41 @@ export const useRealmojiMutation = () => {
     },
     {
       onSuccess(data, variables, context) {
-        console.log("onsuccess", data, variables, context);
         queryClient.setQueryData<
           BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost[]
         >(["feeds", "friends"], (posts) => {
-          console.log("setQueryData", posts);
           if (!posts) return posts;
           const filteredPosts = [
-            ...posts?.map((post) => {
+            ...(posts?.map((post) => {
               if (post.id !== variables.postId) return post;
+
+              const filteredRealmojis = (post.realMojis?.map((realmoji) => {
+                if (realmoji.userName !== data.user?.username) return realmoji;
+
+                return {
+                  ...realmoji,
+                  emoji: data.emoji,
+                  id: data.id,
+                  uri: data.media?.url,
+                } satisfies BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji;
+              }) ?? []);
+
+              if (filteredRealmojis.length === 0) filteredRealmojis.push({
+                emoji: data.emoji,
+                id: data.id,
+                uri: data.media?.url,
+                userName: data.user?.username,
+                uid: data.id,
+                type: data.emoji,
+                date: {_nanoseconds: 0, _seconds: 0}
+              } satisfies BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji)
+
               return {
                 ...post,
-                realMojis: post.realMojis?.map((realmoji) => {
-                  if (realmoji.userName !== data.user?.username)
-                    return realmoji;
-                  return {
-                    ...realmoji,
-                    emoji: data.emoji,
-                    id: data.id,
-                    uri: data.media?.url,
-                  };
-                }),
+                realMojis: filteredRealmojis
               };
-            }),
+            }) ?? []),
           ];
-          console.log("filteredPosts", filteredPosts);
           return filteredPosts;
         });
       },
