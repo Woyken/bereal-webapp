@@ -26,7 +26,19 @@ const port = process.env.PORT || 3000;
 
 var allowedOrigins = ["https://localhost:3001", "https://woyken.github.io"];
 app.use(
-  cors()
+  cors({
+    origin: function (origin, callback) {
+      // requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, false);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        var msg =
+          "The CORS policy for this site does not " +
+          "allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
 );
 
 app.use(express.json());
