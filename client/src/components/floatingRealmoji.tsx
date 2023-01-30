@@ -2,7 +2,6 @@ import {
   Box,
   IconButton,
   Modal,
-  Avatar,
   Button,
   ModalBody,
   ModalCloseButton,
@@ -10,17 +9,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Stack,
-  Text,
+  HStack,
 } from "@hope-ui/solid";
 import { createSignal, For } from "solid-js";
 import { useReactiveMutationProps } from "../hooks/reactiveQuery";
-import { useLoadingToast, useSuccessToast } from "../hooks/toasts";
+import { useErrorToast, useLoadingToast, useSuccessToast } from "../hooks/toasts";
 import {
   usePersonMeQuery,
   useRealmojiMutation,
 } from "../openApiClients/berealWrapperQueries";
 import AddReactionIcon from "./icons/addReactionIcon";
+import { RealmojiWithIcon } from "./realmojiWithIcon";
 
 const FloatingRealmoji = ({ postId }: { postId: string }) => {
   const [activeRealmojiReactionModal, setActiveRealmojiReactionModal] =
@@ -36,7 +35,7 @@ const FloatingRealmoji = ({ postId }: { postId: string }) => {
     useReactiveMutationProps(realmojiMutation);
   useLoadingToast(isLoading, "Setting Realmoji...");
   useSuccessToast(isSuccess, "Realmoji set");
-  useSuccessToast(isError, "Failed to set Realmoji");
+  useErrorToast(isError, "Failed to set Realmoji");
 
   return (
     <Box
@@ -63,10 +62,12 @@ const FloatingRealmoji = ({ postId }: { postId: string }) => {
           <ModalCloseButton />
           <ModalHeader>React with your realmoji</ModalHeader>
           <ModalBody>
-            <For each={meQuery.data?.realmojis}>
-              {(realmoji) => (
-                <Stack gap={8}>
-                  <Avatar
+            <HStack gap="$2">
+              <For each={meQuery.data?.realmojis}>
+                {(realmoji) => (
+                  <RealmojiWithIcon
+                    emoji={realmoji.emoji}
+                    imageUrl={realmoji.media.url}
                     onClick={() => {
                       realmojiMutation.mutate({
                         postId,
@@ -74,13 +75,10 @@ const FloatingRealmoji = ({ postId }: { postId: string }) => {
                       });
                       setActiveRealmojiReactionModal(false);
                     }}
-                    src={realmoji.media.url}
-                    name={realmoji.emoji}
-                  ></Avatar>
-                  <Text>{realmoji.emoji}</Text>
-                </Stack>
-              )}
-            </For>
+                  />
+                )}
+              </For>
+            </HStack>
           </ModalBody>
           <ModalFooter>
             <Button onClick={() => setActiveRealmojiReactionModal((p) => !p)}>
