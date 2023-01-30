@@ -86,7 +86,12 @@ const RealmojiSquished = ({
       </Show>
       <For each={limitedRealmojis}>
         {(realmoji) => (
-          <Avatar marginLeft="-$2" withBorder src={realmoji.uri} />
+          <Avatar
+            marginLeft="-$2"
+            withBorder
+            src={realmoji.uri}
+            name={realmoji.emoji}
+          />
         )}
       </For>
     </Box>
