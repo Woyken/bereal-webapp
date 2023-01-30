@@ -4,7 +4,11 @@ import { useNavigate } from "@solidjs/router";
 import LoginPageLayout from "./loginPageLayout";
 import { Button, Heading, Input, Stack, Text, VStack } from "@hope-ui/solid";
 import { useReactiveMutationProps } from "../../hooks/reactiveQuery";
-import { useLoadingToast, useSuccessToast } from "../../hooks/toasts";
+import {
+  useErrorToast,
+  useLoadingToast,
+  useSuccessToast,
+} from "../../hooks/toasts";
 
 const LoginPage = () => {
   const [inputPhoneNumber, setInputPhoneNumber] = createSignal("");
@@ -14,7 +18,7 @@ const LoginPage = () => {
     useReactiveMutationProps(verificationMutation);
   useLoadingToast(isLoading, "Sending login verification...");
   useSuccessToast(isSuccess, "Login verification success");
-  useSuccessToast(isError, "Failed to send login verification");
+  useErrorToast(isError, "Failed to send login verification");
 
   const handlePhoneInput = (e: InputEvent) =>
     // @ts-expect-error

@@ -5,7 +5,11 @@ import { useNavigate, useParams } from "@solidjs/router";
 import LoginPageLayout from "./loginPageLayout";
 import { Button, Heading, Input, Stack, Text, VStack } from "@hope-ui/solid";
 import { useReactiveMutationProps } from "../../hooks/reactiveQuery";
-import { useLoadingToast, useSuccessToast } from "../../hooks/toasts";
+import {
+  useErrorToast,
+  useLoadingToast,
+  useSuccessToast,
+} from "../../hooks/toasts";
 
 export const VerifyCodePage = () => {
   const { sessionInfo } = useParams();
@@ -20,7 +24,7 @@ export const VerifyCodePage = () => {
   );
   useLoadingToast(isLoading, "Sending phone number verification...");
   useSuccessToast(isSuccess, "Phone number verification success");
-  useSuccessToast(isError, "Failed to send phone number verification");
+  useErrorToast(isError, "Failed to send phone number verification");
 
   createEffect(() => {
     if (!verifyPhoneNumberMutation.data) return;
