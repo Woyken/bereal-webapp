@@ -13,7 +13,11 @@ import {
 } from "@hope-ui/solid";
 import { createSignal, For } from "solid-js";
 import { useReactiveMutationProps } from "../hooks/reactiveQuery";
-import { useErrorToast, useLoadingToast, useSuccessToast } from "../hooks/toasts";
+import {
+  useErrorToast,
+  useLoadingToast,
+  useSuccessToast,
+} from "../hooks/toasts";
 import {
   usePersonMeQuery,
   useRealmojiMutation,
@@ -51,6 +55,7 @@ const FloatingRealmoji = ({ postId }: { postId: string }) => {
         variant="ghost"
         aria-label="Add reaction"
         icon={<AddReactionIcon />}
+        boxShadow="inset 0px 0px 20px 20px rgba(132, 132, 132, 0.15)"
         onClick={handleOpenRealmojiReactions}
       />
       <Modal
