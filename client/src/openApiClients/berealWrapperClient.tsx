@@ -1,11 +1,11 @@
 import { createContext, ParentProps, useContext } from "solid-js";
 import envConfig from "../envConfig";
-import { Api } from "./generated/berealWrapper";
+import { HttpClient } from "./generated/berealWrapper";
 
-const ctx = createContext<Api<unknown>>();
+const ctx = createContext<HttpClient>();
 
 export const BerealWrapperClientProvider = (props: ParentProps) => {
-  const berealWrapperClient = new Api({ baseUrl: envConfig.berealWrapperUrl });
+  const berealWrapperClient = new HttpClient({ baseUrl: envConfig.berealWrapperUrl });
 
   return (
     <ctx.Provider value={berealWrapperClient}>{props.children}</ctx.Provider>

@@ -6,7 +6,7 @@ import {
 import { useUserToken } from "../components/userTokenProvider";
 import { throwInline } from "../utils/throwInline";
 import { useBerealWrapperClient } from "./berealWrapperClient";
-import { BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost, BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "./generated/berealWrapper";
+import { Api_api_getFeedsDiscovery, Api_api_getFeedsFriends, Api_api_getFeedsMemories, Api_api_getPersonMe, Api_api_postRefreshToken, Api_api_postSendVerificationCode, Api_api_postVerifyPhoneNumber, Api_api_putContentRealmojis, BerealAppRepositoriesPostDatasourcesRemoteModelRemotePost, BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "./generated/berealWrapper";
 
 const usePropsHeadersAuthorization = () => {
   const { token } = useUserToken();
@@ -23,8 +23,7 @@ export const useFriendsPostsQuery = () => {
   return createQuery(
     () => ["feeds", "friends"],
     ({ signal }) =>
-      client.api
-        .getFeedsFriends({ ...requestProps(), signal })
+      Api_api_getFeedsFriends(client, { ...requestProps(), signal })
         .then((r) => r.data),
     { suspense: true }
   );
@@ -36,8 +35,7 @@ export const useDiscoveryPostsQuery = () => {
   return createQuery(
     () => ["feeds", "discovery"],
     ({ signal }) =>
-      client.api
-        .getFeedsDiscovery(undefined, { ...requestProps(), signal })
+      Api_api_getFeedsDiscovery(client, undefined, { ...requestProps(), signal })
         .then((r) => r.data)
   );
 };
@@ -48,30 +46,27 @@ export const useMemoryPostsQuery = () => {
   return createQuery(
     () => ["feeds", "memory"],
     ({ signal }) =>
-      client.api
-        .getFeedsMemories(undefined, { ...requestProps(), signal })
+      Api_api_getFeedsMemories(client, undefined, { ...requestProps(), signal })
         .then((r) => r.data)
   );
 };
 
 export const useLoginSendVerificationMutation = () => {
   const client = useBerealWrapperClient();
-  return createMutation(({ phoneNumber }: { phoneNumber: string }) =>
-    client.api
-      .postSendVerificationCode({
-        phoneNumber,
-      })
+  return createMutation(({ phoneNumber }: { phoneNumber: string; }) =>
+    Api_api_postSendVerificationCode(client, {
+      phoneNumber,
+    })
       .then((r) => r.data)
   );
 };
 
 export const useLoginRefreshTokenMutation = () => {
   const client = useBerealWrapperClient();
-  return createMutation(({ refreshToken }: { refreshToken: string }) => {
-    return client.api
-      .postRefreshToken({
-        refresh_token: refreshToken,
-      })
+  return createMutation(({ refreshToken }: { refreshToken: string; }) => {
+    return Api_api_postRefreshToken(client, {
+      refresh_token: refreshToken,
+    })
       .then((r) => r.data);
   });
 };
@@ -79,8 +74,8 @@ export const useLoginRefreshTokenMutation = () => {
 export const useLoginVerifyPhoneNumberMutation = () => {
   const client = useBerealWrapperClient();
   return createMutation(
-    async ({ code, sessionInfo }: { code: string; sessionInfo: string }) => {
-      const r = await client.api.postVerifyPhoneNumber({
+    async ({ code, sessionInfo }: { code: string; sessionInfo: string; }) => {
+      const r = await Api_api_postVerifyPhoneNumber(client, {
         code,
         sessionInfo,
       });
@@ -95,7 +90,7 @@ export const usePersonMeQuery = () => {
   return createQuery(
     () => ["getPersonMe"],
     async ({ signal }) => {
-      const r = await client.api.getPersonMe({ ...requestProps(), signal });
+      const r = await Api_api_getPersonMe(client, { ...requestProps(), signal });
       return r.data;
     },
     { suspense: true }
@@ -107,9 +102,8 @@ export const useRealmojiMutation = () => {
   const client = useBerealWrapperClient();
   const requestProps = usePropsHeadersAuthorization();
   return createMutation(
-    ({ postId, emoji }: { postId: string; emoji: string }) => {
-      return client.api
-        .putContentRealmojis({ postId, emoji }, requestProps())
+    ({ postId, emoji }: { postId: string; emoji: string; }) => {
+      return Api_api_putContentRealmojis(client, { postId, emoji }, requestProps())
         .then((r) => r.data);
     },
     {
@@ -140,8 +134,8 @@ export const useRealmojiMutation = () => {
                 userName: data.user?.username,
                 uid: data.id,
                 type: data.emoji,
-                date: {_nanoseconds: 0, _seconds: 0}
-              } satisfies BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji)
+                date: { _nanoseconds: 0, _seconds: 0 }
+              } satisfies BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji);
 
               return {
                 ...post,

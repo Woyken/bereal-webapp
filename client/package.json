@@ -7,7 +7,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "postinstall": "npm run gen:bereal-wrapper",
-    "gen:bereal-wrapper": "swagger-typescript-api -p ./src/openApiClients/berealWrapper.json -o ./src/openApiClients/generated -n berealWrapper.ts"
+    "gen:bereal-wrapper": "swagger-typescript-api -p ./src/openApiClients/berealWrapper.json -o ./src/openApiClients/generated -n berealWrapper.ts -t src/openApiClients/templates"
   },
   "license": "MIT",
   "devDependencies": {
