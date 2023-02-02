@@ -18,6 +18,60 @@ import { createSignal, For, Show } from "solid-js";
 import { BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji } from "../openApiClients/generated/berealWrapper";
 import { RealmojiWithIcon } from "./realmojiWithIcon";
 
+type RealmojiReactionsModalProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => boolean;
+  realmojis?: BerealAppRepositoriesPostDatasourcesRemoteModelRemoteRealMoji[];
+};
+
+const RealmojiReactionsModal = (props: RealmojiReactionsModalProps) => {
+  const [activeRealmoji, setActiveRealmoji] = createSignal(
+    props.realmojis?.[0]
+  );
+
+  return (
+    <Modal
+      opened={props.isModalOpen}
+      onClose={() => props.setIsModalOpen(false)}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>Reactions</ModalHeader>
+        <ModalBody>
+          <Flex direction="column">
+            <Image src={activeRealmoji()?.uri} />
+            <Text>
+              {activeRealmoji()?.emoji} {activeRealmoji()?.userName}
+            </Text>
+          </Flex>
+          <Flex>
+            <For each={props.realmojis}>
+              {(realmoji) => (
+                <>
+                  <Flex
+                    direction="column"
+                    gap={8}
+                    onClick={() => setActiveRealmoji(realmoji)}
+                  >
+                    <RealmojiWithIcon
+                      emoji={realmoji.emoji}
+                      imageUrl={realmoji.uri}
+                    />
+                  </Flex>
+                </>
+              )}
+            </For>
+          </Flex>
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={() => props.setIsModalOpen(false)}>Close</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+};
+
 const RealmojiSquished = ({
   realmojis,
 }: {
@@ -28,8 +82,6 @@ const RealmojiSquished = ({
   const limitedLength = limitedRealmojis?.length ?? 0;
   const extraText =
     allLength > limitedLength ? `+${allLength - limitedLength}` : undefined;
-
-  const [activeRealmoji, setActiveRealmoji] = createSignal(realmojis?.[0]);
 
   const [isModalOpen, setIsModalOpen] = createSignal(false);
   return (
@@ -42,43 +94,11 @@ const RealmojiSquished = ({
       justifyContent="start"
       onClick={() => setIsModalOpen((p) => !p)}
     >
-      <Modal opened={isModalOpen()} onClose={() => setIsModalOpen((p) => !p)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>Reactions</ModalHeader>
-          <ModalBody>
-            <Flex direction="column">
-              <Image src={activeRealmoji()?.uri} />
-              <Text>
-                {activeRealmoji()?.emoji} {activeRealmoji()?.userName}
-              </Text>
-            </Flex>
-            <Flex>
-              <For each={realmojis}>
-                {(realmoji) => (
-                  <>
-                    <Flex
-                      direction="column"
-                      gap={8}
-                      onClick={() => setActiveRealmoji(realmoji)}
-                    >
-                      <RealmojiWithIcon
-                        emoji={realmoji.emoji}
-                        imageUrl={realmoji.uri}
-                      />
-                    </Flex>
-                  </>
-                )}
-              </For>
-            </Flex>
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={() => setIsModalOpen((p) => !p)}>Close</Button>
-          </ModalFooter>
-        </ModalContent>
-        <div>test</div>
-      </Modal>
+      <RealmojiReactionsModal
+        isModalOpen={isModalOpen()}
+        setIsModalOpen={setIsModalOpen}
+        realmojis={realmojis}
+      />
       <Show when={extraText}>
         <AvatarExcess marginLeft="-$2" withBorder>
           {extraText}
